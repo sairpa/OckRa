@@ -36,3 +36,31 @@
     transform: rotate(360deg);
   }
 }
+
+.bg1{
+  background-color: #1a7bbc73;
+  color: #ffffff;
+}
+.navbar {
+  margin-bottom: 0;
+  background-color: #2d2d30;
+  z-index: 9999;
+  border: 0;
+  font-size: 12px !important;
+  line-height: 1.42857143 !important;
+  letter-spacing: 4px;
+  border-radius: 0;
+  font-family: Montserrat, sans-serif;
+}
+
+
+.navbar li a, .navbar .navbar-brand {
+  color: #d5d5d5 !important;
+}
+
+.navbar-nav li a:hover {
+  color: #fff !important;
+}
+.pa {
+  padding: 100px 20px;
+}
