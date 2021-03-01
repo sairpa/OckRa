@@ -39,7 +39,7 @@ export default class Home_Page extends Component{
                         
                 </div>
                 
-                <Carousel interval={null} controls={false} >
+                <Carousel interval={null} controls={false} slide={false} >
                 <Carousel.Item className="pa"  style={{'height':"300px",'width':"600px"}}>
                 
                    
