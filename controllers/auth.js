@@ -7,7 +7,7 @@ exports.studentSignup =(req,res)=>{
     student.save((err,student)=>{
         if(err || !student){
             return res.status(400).json({
-                error:"student can be created"
+                error:"student cannot be created"
             });
         }
         return res.json({
