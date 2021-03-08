@@ -9,7 +9,6 @@ app.use(cors());
 app.use(express.json());
 
 const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://sairpa:sairam13@cluster0.2jhcj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 
