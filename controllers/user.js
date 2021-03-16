@@ -11,7 +11,7 @@ exports.findStudentbyId =(req,res,next,id)=>{
     Student.findById(id).exec((err,student)=>{
         if(err || !student){
             return res.status(400).json({
-                error: "No user was found in DB"
+                error: "Access denied Not a student"
             });
         }
         req.profile=student;
@@ -26,7 +26,7 @@ exports.findTeacherbyId =(req,res,next,id)=>{
     Teacher.findById(id).exec((err,teacher)=>{
         if(err || !teacher){
             return res.status(400).json({
-                error: "No user was found in DB"
+                error: "Access Denied Not a teacher"
             });
         }
         req.profile=teacher;
@@ -39,9 +39,9 @@ exports.findTeacherbyId =(req,res,next,id)=>{
 exports.getUser = (req, res) => {
     
     if(req.profile.role==1){
-        return res.json({"Teacher Name":req.profile.name,"email":req.profile.email});
+        return res.json({"Teacher Name":req.profile.name,"email":req.profile.email,"mobileno":req.profile.mobileno});
     }
-    return res.json({"Student Name":req.profile.name,"email":req.profile.email});
+    return res.json({"Student Name":req.profile.name,"email":req.profile.email,"sec":req.profile.sec,"Batch":req.profile.batch});
 };
 
 exports.enter_feedback =(req,res)=>{
