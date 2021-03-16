@@ -12,7 +12,7 @@ var tokenSchema =mongoose.Schema({
         type: Date,
         default: Date.now,
         index: {
-            expires: 86400000 
+            expires: 1800 
         } 
     }
 });
