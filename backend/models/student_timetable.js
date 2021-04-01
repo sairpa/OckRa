@@ -8,6 +8,7 @@ var studentTimetableSchema = new mongoose.Schema({
         type:String,
         required:true
     },
+    timetable:{
     monday:{
         type:Array,
         default:[]
@@ -28,6 +29,7 @@ var studentTimetableSchema = new mongoose.Schema({
         type:Array,
         default:[]
     }
+}
     
     
 });

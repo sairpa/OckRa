@@ -234,13 +234,7 @@ exports.get_sectionTimeTable=(req,res)=>{
                 error:"TimeTable not found"
             })
         }
-        return res.json({
-            monday:tt.monday,
-            tuesday:tt.tuesday,
-            wednesday:tt.wednesday,
-            thursday:tt.thursday,
-            friday:tt.friday
-        })
+        return res.json(tt)
     })
 }
 
@@ -251,12 +245,7 @@ exports.get_teacherTimeTable=(req,res)=>{
                 error:"TimeTable not found"
             })
         }
-        return res.json({
-            monday:tt.monday,
-            tuesday:tt.tuesday,
-            wednesday:tt.wednesday,
-            thursday:tt.thursday,
-            friday:tt.friday
-        })
+        console.log(tt.timetable)
+        return res.json(tt)
     })
 }
