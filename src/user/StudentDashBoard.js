@@ -1,27 +1,89 @@
-import React from "react";
+import React, { useState } from "react";
 //import Base from "../core/Base";
 //import Jumbotron from "react-bootstrap/Jumbotron";
 import "../App.css";
 
 import icla from "../img/ic_launcher.png";
-import { signout } from "../auth/helper";
+import { getuser, signout } from "../auth/helper";
 var rootStyle = {
 	height: "100vh",
 	backgroundColor: "#dae8df",
 };
 const StudentDashBoard = () => {
-	const { user } = JSON.parse(localStorage.getItem("jwt"));
+	var d = new Date();
+	var weekday = new Array(7);
+	weekday[0] = "sunday";
+	weekday[1] = "monday";
+	weekday[2] = "tuesday";
+	weekday[3] = "wednesday";
+	weekday[4] = "thursday";
+	weekday[5] = "friday";
+	weekday[6] = "saturday";
+
+	var n = weekday[d.getDay()];
+	if (d.getDay() === 6) {
+		n = "monday";
+	}
+	if (d.getDay() === 0) {
+		n = "monday";
+	}
+	//console.log(n);
+	const [values, setValues] = useState({
+		email: "",
+		name: "",
+		sec: "",
+		usrname: "",
+		batch: "",
+		timetable: "",
+	});
+	const { email, sec, error, batch, timetable, usrname } = values;
+
+	const { user, token } = JSON.parse(localStorage.getItem("jwt"));
+	var test = 1;
+	//console.log(test);
+	//console.log(token);
 	//console.log(user.name);
+	const getUser = () => {
+		getuser(user._id, token)
+			.then((data) => {
+				if (!data.error) {
+					//console.log("wrws", test);
+					//console.log(data.sec, data.mobileno);
+					const { sec } = data;
+					localStorage.setItem("details", JSON.stringify(data));
+					setValues({
+						...values,
+						email: data.email,
+						name: data.name,
+						sec: data.sec,
+						usrname: data.name,
+						batch: data.batch,
+						timetable: data.timetable[0].timetable[n],
+					});
+				}
+			})
+			.catch();
+	};
+	function Listrender() {
+		// Build an array of items
+		let array = [];
+		const listItems = timetable.map((d) => <ol key={d}>{d}</ol>);
+
+		// Render it
+		return <div>{listItems}</div>;
+	}
+
 	return (
 		<div>
+			{getUser()}
 			<header>
-				<nav class="navbar navbar-light bg-light">
-					<a class="navbar-brand" href="/studentdashboard">
+				<nav className="navbar navbar-light bg-light">
+					<a className="navbar-brand" href="/studentdashboard">
 						<img
 							src={icla}
 							width="30"
 							height="30"
-							class="d-inline-block align-top"
+							className="d-inline-block align-top"
 							alt=""
 						/>
 						Student Dashboard
@@ -31,13 +93,13 @@ const StudentDashBoard = () => {
 			<div className="row">
 				<div className="col-sm-1.8">
 					<div
-						class="nav flex-column nav-pills"
+						className="nav flex-column nav-pills"
 						id="v-pills-tab"
 						role="tablist"
 						aria-orientation="vertical"
 					>
 						<a
-							class="nav-link active"
+							className="nav-link active"
 							id="v-pills-home-tab"
 							data-toggle="pill"
 							href="/"
@@ -45,10 +107,10 @@ const StudentDashBoard = () => {
 							aria-controls="v-pills-home"
 							aria-selected="true"
 						>
-							<i class="fas fa-home"></i>&nbsp;Home
+							<i className="fas fa-home"></i>&nbsp;Home
 						</a>
 						<a
-							class="nav-link text-body"
+							className="nav-link text-body"
 							id="v-pills-profile-tab"
 							data-toggle="pill"
 							href="/profile"
@@ -56,10 +118,10 @@ const StudentDashBoard = () => {
 							aria-controls="v-pills-profile"
 							aria-selected="false"
 						>
-							<i class="fas fa-user"></i>&nbsp;Profile
+							<i className="fas fa-user"></i>&nbsp;Profile
 						</a>
 						<a
-							class="nav-link text-body"
+							className="nav-link text-body"
 							id="v-pills-messages-tab"
 							data-toggle="pill"
 							href="/feedback"
@@ -67,10 +129,10 @@ const StudentDashBoard = () => {
 							aria-controls="v-pills-messages"
 							aria-selected="false"
 						>
-							<i class="fas fa-book-open"></i>&nbsp;Feedback
+							<i className="fas fa-book-open"></i>&nbsp;Feedback
 						</a>
 						<a
-							class="nav-link text-body"
+							className="nav-link text-body"
 							id="v-pills-settings-tab"
 							data-toggle="pill"
 							href="/login"
@@ -81,31 +143,36 @@ const StudentDashBoard = () => {
 								signout(() => {});
 							}}
 						>
-							<i class="fas fa-sign-out-alt"></i>&nbsp;Logout
+							<i className="fas fa-sign-out-alt"></i>&nbsp;Logout
 						</a>
 					</div>
 				</div>
 				<div className="col-sm-11" style={rootStyle}>
-					<div class="row m-3">
-						<div class="col-sm-6">
-							<div class="card">
-								<div class="card-body">
-									<h5 class="card-title">
-										Hello {user.name} <br /> Your Notifications
+					<div className="row m-3">
+						<div className="col-sm-6">
+							<div className="card">
+								<div className="card-body">
+									<h5 className="card-title">
+										Hello {usrname}
+										<br /> Your Notifications
 									</h5>
-									<p class="card-text"></p>
+									<p className="card-text"></p>
 								</div>
 							</div>
 						</div>
-						<div class="col-sm-6">
-							<div class="card">
-								<div class="card-body">
-									<h5 class="card-title">Classroom Allotted</h5>
-									<p class="card-text"></p>
+						<div className="col-sm-6">
+							<div className="card">
+								<div className="card-body">
+									<h5 className="card-title">
+										Classroom Allotted for {sec} ({n})
+									</h5>
+									{timetable && Listrender()}
+									<p className="card-text"></p>
 								</div>
 							</div>
 						</div>
 					</div>
+					{/*<p className=" text-center">{JSON.stringify(values)}</p>*/}
 				</div>
 			</div>
 		</div>

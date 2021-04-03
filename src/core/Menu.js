@@ -14,15 +14,27 @@ const Menu = ({ history }) => (
 	<div className="container-fluid">
 		<nav className="nav">
 			{isAuthenticated() && isAuthenticated().user.role === 0 && (
-				<div class="navbar-brand">
+				<div className="navbar-brand">
 					<img
 						src={icla}
 						width="30"
 						height="30"
-						class="d-inline-block align-top"
+						className="d-inline-block align-top"
 						alt=""
 					/>
 					Student Account
+				</div>
+			)}
+			{isAuthenticated() && isAuthenticated().user.role === 1 && (
+				<div className="navbar-brand">
+					<img
+						src={icla}
+						width="30"
+						height="30"
+						className="d-inline-block align-top"
+						alt=""
+					/>
+					Teacher Account
 				</div>
 			)}
 			<ul className="nav-list ml-auto">
@@ -35,26 +47,28 @@ const Menu = ({ history }) => (
 					</Link>
 				)}
 
-				{isAuthenticated() && isAuthenticated().user.role === 0 && (
-					<Fragment>
-						<Link
-							to="/studentdashboard"
-							className="px-4"
-							style={{ color: "#000000" }}
-						>
-							Dashboard
-						</Link>
-						<Link
-							className="cmn-btn px-4"
-							onClick={() => {
-								signout(() => {});
-							}}
-							to="/login"
-						>
-							Signout
-						</Link>
-					</Fragment>
-				)}
+				{isAuthenticated() &&
+					(isAuthenticated().user.role === 0 ||
+						isAuthenticated().user.role === 1) && (
+						<Fragment>
+							<Link
+								to="/studentdashboard"
+								className="px-4"
+								style={{ color: "#000000" }}
+							>
+								Dashboard
+							</Link>
+							<Link
+								className="cmn-btn px-4"
+								onClick={() => {
+									signout(() => {});
+								}}
+								to="/login"
+							>
+								Signout
+							</Link>
+						</Fragment>
+					)}
 			</ul>
 		</nav>
 	</div>
