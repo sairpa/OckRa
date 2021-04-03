@@ -99,12 +99,12 @@ for (i in tt){
     tt[i][4],
     tt[i][5],
     tt[i][6],
-    tt[i][6],
     tt[i][7]
   ]
   tableRows.push(timetable)
 }
-doc.autoTable(tableColumn, tableRows, { startY: 20 });
+//doc.autoTable(tableColumn, tableRows, { startY: 20 });
+doc.autoTable({head:[tableColumn], body:tableRows, startY:20 });
 doc.save('Test.pdf');
     /*var doc = new jsPDF('p', 'pt');
  
