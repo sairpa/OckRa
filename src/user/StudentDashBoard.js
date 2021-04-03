@@ -50,7 +50,7 @@ const StudentDashBoard = () => {
 					//console.log("wrws", test);
 					//console.log(data.sec, data.mobileno);
 					const { sec } = data;
-					localStorage.setItem("details", JSON.stringify(data));
+					!timetable && localStorage.setItem("details", JSON.stringify(data));
 					setValues({
 						...values,
 						email: data.email,
@@ -67,7 +67,7 @@ const StudentDashBoard = () => {
 	function Listrender() {
 		// Build an array of items
 		let array = [];
-		const listItems = timetable.map((d) => <ol key={d}>{d}</ol>);
+		const listItems = timetable.map((d, index) => <ol key={index}>{d}</ol>);
 
 		// Render it
 		return <div>{listItems}</div>;
@@ -140,6 +140,7 @@ const StudentDashBoard = () => {
 							aria-controls="v-pills-settings"
 							aria-selected="false"
 							onClick={() => {
+								localStorage.removeItem("details");
 								signout(() => {});
 							}}
 						>
