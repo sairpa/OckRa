@@ -109,7 +109,7 @@ const Search_timetable = () => {
 			];
 			tableRows.push(timetable);
 		}
-		doc.autoTable(tableColumn, tableRows, { startY: 20 });
+		doc.autoTable({ head: [tableColumn], body: tableRows, startY: 20 });
 		doc.save("Test.pdf");
 		/*var doc = new jsPDF('p', 'pt');
  
