@@ -22,7 +22,7 @@ const Signin = () => {
 	const onSubmit = (event) => {
 		event.preventDefault();
 		setValues({ ...values, error: false, loading: true });
-		console.log("efefkmdl");
+		//console.log("efefkmdl");
 		signin({ email, password })
 			.then((data) => {
 				if (data.error) {

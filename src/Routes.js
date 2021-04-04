@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import PrivateRoute from "./auth/helper/PrivateRoutes";
 import Search_timetable from "./core/Home";
+import Feedback from "./user/Feedback";
 import Forgotpass from "./user/forgotpass";
 import Sendmail from "./user/sendmail";
 import Signin from "./user/Signin";
@@ -23,6 +24,11 @@ const Routes = () => {
 					path="/teacherdashboard"
 					exact
 					component={TeacherDashBoard}
+				></PrivateRoute>
+				<PrivateRoute
+					path="/feedback"
+					exact
+					component={Feedback}
 				></PrivateRoute>
 				<Route path="/:email/:token" exact component={Forgotpass}></Route>
 				<Route path="/forgotpassword" exact component={Sendmail}></Route>

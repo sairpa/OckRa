@@ -1,6 +1,6 @@
 import { API } from "../../backend";
 export const signin = (user) => {
-	console.log("enfen");
+	//console.log("enfen");
 	return fetch(`${API}/signin`, {
 		method: "POST",
 		headers: {
@@ -10,7 +10,7 @@ export const signin = (user) => {
 		body: JSON.stringify(user),
 	})
 		.then((response) => {
-			console.log("inside");
+			//console.log("inside");
 			return response.json();
 		})
 		.catch((err) => console.log(err));
@@ -92,6 +92,21 @@ export const getuser = (id, token) => {
 		.catch((err) => console.log(err));
 };
 
+export const getTeacher = (id, token) => {
+	return fetch(`${API}/teacher/${id}`, {
+		method: "GET",
+		headers: {
+			Accept: "application/json",
+			Authorization: `Bearer ${token}`,
+		},
+	})
+		.then((response) => {
+			//console.log(response.json());
+			return response.json();
+		})
+		.catch((err) => console.log(err));
+};
+
 export const forgotpassword = (email) => {
 	let info = { email };
 	return fetch(`${API}/forgotpassword`, {
@@ -131,6 +146,40 @@ export const sectiontimetable = (timetable) => {
 			"Content-Type": "application/json",
 		},
 		body: JSON.stringify(timetable),
+	})
+		.then((response) => {
+			return response.json();
+		})
+		.catch((err) => console.log(err));
+};
+
+export const feedback_student = (userid, token, feedback) => {
+	return fetch(`${API}/student/${userid}/feedback`, {
+		method: "POST",
+		//mode:"no-cors",
+		headers: {
+			Accept: "application/json",
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${token}`,
+		},
+		body: JSON.stringify({ user_feedback: feedback }),
+	})
+		.then((response) => {
+			return response.json();
+		})
+		.catch((err) => console.log(err));
+};
+
+export const feedback_teacher = (userid, token, feedback) => {
+	return fetch(`${API}/teacher/${userid}/feedback`, {
+		method: "POST",
+		//mode:"no-cors",
+		headers: {
+			Accept: "application/json",
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${token}`,
+		},
+		body: JSON.stringify({ user_feedback: feedback }),
 	})
 		.then((response) => {
 			return response.json();

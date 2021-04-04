@@ -47,28 +47,46 @@ const Menu = ({ history }) => (
 					</Link>
 				)}
 
-				{isAuthenticated() &&
-					(isAuthenticated().user.role === 0 ||
-						isAuthenticated().user.role === 1) && (
-						<Fragment>
-							<Link
-								to="/studentdashboard"
-								className="px-4"
-								style={{ color: "#000000" }}
-							>
-								Dashboard
-							</Link>
-							<Link
-								className="cmn-btn px-4"
-								onClick={() => {
-									signout(() => {});
-								}}
-								to="/login"
-							>
-								Signout
-							</Link>
-						</Fragment>
-					)}
+				{isAuthenticated() && isAuthenticated().user.role === 0 && (
+					<Fragment>
+						<Link
+							to="/studentdashboard"
+							className="px-4"
+							style={{ color: "#000000" }}
+						>
+							Dashboard
+						</Link>
+						<Link
+							className="cmn-btn px-4"
+							onClick={() => {
+								signout(() => {});
+							}}
+							to="/login"
+						>
+							Signout
+						</Link>
+					</Fragment>
+				)}
+				{isAuthenticated() && isAuthenticated().user.role === 1 && (
+					<Fragment>
+						<Link
+							to="/teacherdashboard"
+							className="px-4"
+							style={{ color: "#000000" }}
+						>
+							Dashboard
+						</Link>
+						<Link
+							className="cmn-btn px-4"
+							onClick={() => {
+								signout(() => {});
+							}}
+							to="/login"
+						>
+							Signout
+						</Link>
+					</Fragment>
+				)}
 			</ul>
 		</nav>
 	</div>
