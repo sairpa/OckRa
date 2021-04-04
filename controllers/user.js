@@ -7,7 +7,7 @@ const Feedback = require("../models/feedback");
 const Token = require("../models/token");
 const nodemailer = require("nodemailer");
 const teacher = require("../models/teacher");
-exports.findStudentbyId = (req, res, next, id) => {
+exports.findStudentbyId = async (req, res, next, id) => {
 	Student.findById(id).exec((err, student) => {
 		if (err || !student) {
 			return res.status(400).json({
@@ -36,7 +36,7 @@ exports.findStudentbyId = (req, res, next, id) => {
 	});
 };
 
-exports.findTeacherbyId = (req, res, next, id) => {
+exports.findTeacherbyId = async (req, res, next, id) => {
 	Teacher.findById(id).exec((err, teacher) => {
 		if (err || !teacher) {
 			return res.status(400).json({
@@ -49,15 +49,18 @@ exports.findTeacherbyId = (req, res, next, id) => {
 		next();
 	});
 };
-exports.getUser = (req, res) => {
+exports.getUser = async (req, res) => {
 	if (req.profile.role == 1) {
 		return res.json(req.profile);
 	}
 	return res.json(req.profile);
 };
 
-exports.enter_feedback = (req, res) => {
+exports.enter_feedback = async (req, res) => {
 	let { email } = req.profile;
+	if (!email) {
+		email = req.body.email;
+	}
 	let { user_feedback } = req.body;
 	//console.log(req.profile.email)
 	const feedback_obj = new Feedback({ email, user_feedback });
@@ -86,7 +89,7 @@ exports.enter_feedback = (req, res) => {
 			(err, updated_feedback) => {
 				if (err || !updated_feedback) {
 					return res.status(400).json({
-						msg: "Cannot make the changes",
+						error: "Cannot make the changes",
 					});
 				}
 				//console.log(typeof(updated_feedback.user_feedback))
@@ -99,7 +102,7 @@ exports.enter_feedback = (req, res) => {
 	});
 };
 
-exports.checkuser = (req, res, next) => {
+exports.checkuser = async (req, res, next) => {
 	let { email } = req.body;
 	//console.log(email)
 	if (!email) {
@@ -114,7 +117,7 @@ exports.checkuser = (req, res, next) => {
 			return Teacher.findOne({ email }, (err, teacher) => {
 				if (err || !teacher) {
 					//console.log(req.headers.host)
-					return res.json("invalid emailID");
+					return res.status(400).json({ error: "invalid emailID" });
 				} else {
 					let checkTeacher = true;
 					let { email } = teacher;
@@ -136,7 +139,7 @@ exports.checkuser = (req, res, next) => {
     next();*/
 };
 
-exports.forgot_password = (req, res) => {
+exports.forgot_password = async (req, res) => {
 	let { email } = req.body;
 	Token.findOne({ email }, (err, token) => {
 		if (err || !token) {
@@ -190,7 +193,7 @@ exports.forgot_password = (req, res) => {
 	});
 };
 
-exports.reset_password = (req, res) => {
+exports.reset_password = async (req, res) => {
 	let { email } = req.cond;
 	//If teacher
 	if (req.cond.checkTeacher) {
@@ -247,7 +250,7 @@ exports.reset_password = (req, res) => {
 	}
 };
 
-exports.check_Token = (req, res, next, id) => {
+exports.check_Token = async (req, res, next, id) => {
 	//console.log(req.params.email,id)
 	Token.findOne({ email: req.params.email, token: id }, (err, token) => {
 		if (err || !token) {
@@ -257,8 +260,8 @@ exports.check_Token = (req, res, next, id) => {
 	});
 };
 
-exports.update_profile = (req, res) => {
-	console.log(req.profile.role);
+exports.update_profile = async (req, res) => {
+	//console.log(req.profile.role);
 	if (req.profile.role === 0) {
 		let { studentinfo, mobileno } = req.body;
 		let updates;

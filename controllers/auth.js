@@ -4,7 +4,7 @@ const StudentTimeTable = require("../models/student_timetable");
 const TeacherTimetable = require("../models/teacher_timetable");
 var jwt = require("jsonwebtoken");
 var expressJwt = require("express-jwt");
-exports.studentSignup = (req, res) => {
+exports.studentSignup = async (req, res) => {
 	const student = new Student(req.body);
 	student.save((err, student) => {
 		if (err || !student) {
@@ -17,7 +17,7 @@ exports.studentSignup = (req, res) => {
 		});
 	});
 };
-exports.teacherSignup = (req, res) => {
+exports.teacherSignup = async (req, res) => {
 	const teacher = new Teacher(req.body);
 	teacher.save((err, teacher) => {
 		if (err || !teacher) {
@@ -30,7 +30,7 @@ exports.teacherSignup = (req, res) => {
 		});
 	});
 };
-exports.student_timetableInput = (req, res) => {
+exports.student_timetableInput = async (req, res) => {
 	const studenttimetable = new StudentTimeTable(req.body);
 	studenttimetable.save((err, timetable) => {
 		if (err || !timetable) {
@@ -44,7 +44,7 @@ exports.student_timetableInput = (req, res) => {
 	});
 };
 
-exports.teacher_timetableInput = (req, res) => {
+exports.teacher_timetableInput = async (req, res) => {
 	const teachertimetable = new TeacherTimetable(req.body);
 	teachertimetable.save((err, timetable) => {
 		if (err || !timetable) {
@@ -79,7 +79,7 @@ exports.teacher_timetableInput = (req, res) => {
     
 
 }*/
-exports.find = (req, res) => {
+exports.find = async (req, res) => {
 	Student.find().exec((err, students) => {
 		if (err || !students) {
 			return res.status(400).json({
@@ -89,7 +89,7 @@ exports.find = (req, res) => {
 		return res.json(students);
 	});
 };
-exports.isTeacher = (req, res, next) => {
+exports.isTeacher = async (req, res, next) => {
 	if (req.profile.role === 0) {
 		return res.status(403).json({
 			error: "Access denied,You are not a teacher",
@@ -101,7 +101,7 @@ exports.isSignedIn = expressJwt({
 	secret: "Success",
 	userProperty: "auth",
 });
-exports.isAuthenticated = (req, res, next) => {
+exports.isAuthenticated = async (req, res, next) => {
 	var a = req.profile && req.auth && req.profile._id == req.auth._id;
 	if (!a) {
 		return res.status(403).json({
@@ -110,12 +110,12 @@ exports.isAuthenticated = (req, res, next) => {
 	}
 	next();
 };
-exports.signout = (req, res) => {
+exports.signout = async (req, res) => {
 	res.clearCookie("token");
 	return res.json("User logout Succesful");
 };
 
-exports.signin = (req, res) => {
+exports.signin = async (req, res) => {
 	let { email, password } = req.body;
 	Student.findOne({ email }, (err, student) => {
 		if (err || !student) {
@@ -138,7 +138,7 @@ exports.signin = (req, res) => {
 				now.setTime(expireTime);
 				res.cookie("token", token, { maxAge: 600000 });
 				return TeacherTimetable.findOne({ name: teacher.name }, (err, tt) => {
-					console.log(teacher.name);
+					//console.log(teacher.name);
 					if (err || !tt) {
 						return res.status(400).json({
 							error: "no timetable found in the database",
@@ -178,7 +178,7 @@ exports.signin = (req, res) => {
 	});
 };
 
-exports.get_sectionTimeTable = (req, res) => {
+exports.get_sectionTimeTable = async (req, res) => {
 	StudentTimeTable.findOne(
 		{ sec: req.body.sec, batch: req.body.batch },
 		(err, tt) => {
@@ -192,14 +192,14 @@ exports.get_sectionTimeTable = (req, res) => {
 	);
 };
 
-exports.get_teacherTimeTable = (req, res) => {
+exports.get_teacherTimeTable = async (req, res) => {
 	TeacherTimetable.findOne({ name: req.body.name }, (err, tt) => {
 		if (err || !tt) {
 			return res.status(400).json({
 				error: "TimeTable not found",
 			});
 		}
-		console.log(tt.timetable);
+		//console.log(tt.timetable);
 		return res.json(tt);
 	});
 };
