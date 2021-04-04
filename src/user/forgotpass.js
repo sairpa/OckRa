@@ -6,6 +6,7 @@ import { resetpass } from "../auth/helper";
 
 export default function Forgotpass() {
 	let { email, token } = useParams();
+	console.log(token)
 	const [values, setValues] = useState({
 		password: "",
 		error: "",

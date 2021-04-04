@@ -47,7 +47,7 @@ const Menu = ({ history }) => (
 					</Link>
 				)}
 
-				{isAuthenticated() && isAuthenticated().user.role === 0 && (
+				{isAuthenticated() && (isAuthenticated().user.role === 0||1) && (
 					<Fragment>
 						<Link
 							to="/studentdashboard"
@@ -67,26 +67,9 @@ const Menu = ({ history }) => (
 						</Link>
 					</Fragment>
 				)}
-				{isAuthenticated() && isAuthenticated().user.role === 1 && (
-					<Fragment>
-						<Link
-							to="/teacherdashboard"
-							className="px-4"
-							style={{ color: "#000000" }}
-						>
-							Dashboard
-						</Link>
-						<Link
-							className="cmn-btn px-4"
-							onClick={() => {
-								signout(() => {});
-							}}
-							to="/login"
-						>
-							Signout
-						</Link>
-					</Fragment>
-				)}
+		
+				
+
 			</ul>
 		</nav>
 	</div>

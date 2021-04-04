@@ -6,6 +6,7 @@ import forgotpass from "./user/forgotpass";
 import Signin from "./user/Signin";
 import StudentDashBoard from "./user/StudentDashBoard";
 import TeacherDashBoard from "./user/TeacherDashBoard"
+import Feedback from "./user/Feedback"
 
 const Routes = () => {
 	return (
@@ -22,6 +23,11 @@ const Routes = () => {
 					path="/teacherdashboard"
 					exact
 					component={TeacherDashBoard}
+				></PrivateRoute>
+				<PrivateRoute
+					path="/feedback"
+					exact
+					component={Feedback}
 				></PrivateRoute>
 				<Route path="/:email/:token" exact component={forgotpass}></Route>
 			</Switch>
