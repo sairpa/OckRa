@@ -69,9 +69,9 @@ const TeacherDashBoard = () => {
 		// Render it
 		return <div>{listItems}</div>;
 	}
+	getUser();
 	return (
 		<div>
-			{getUser()}
 			<header>
 				<nav className="navbar navbar-light bg-light">
 					<a className="navbar-brand" href="/teacherdashboard">
