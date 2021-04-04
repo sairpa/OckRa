@@ -2,7 +2,6 @@ const app = require("../app");
 const supertest = require("supertest");
 const request = supertest(app);
 describe("Feedback check", () => {
-	let studentid = "6065d9d87ca7e02231f427d5";
 	test("Entering feedback?", async (done) => {
 		const res0 = await request.post("/api/signin").send({
 			email: "cb.en.u4cse18129@cb.students.amrita.edu",
@@ -15,8 +14,10 @@ describe("Feedback check", () => {
 			});*/
 		//expect(res.status).toBe(200);
 		let token = res0.body.token;
+		let studentid = res0.body.user._id;
+
 		const res = await request
-			.post("/api/student/6065d9d87ca7e02231f427d5/feedback")
+			.post(`/api/student/${studentid}/feedback`)
 			.send({
 				email: "cb.en.u4cse18129@cb.students.amrita.edu",
 				user_feedback: "superbad",
@@ -33,8 +34,6 @@ describe("Feedback check", () => {
 });
 
 describe("Profile Update check", () => {
-	let studentid = "6065d9d87ca7e02231f427d5";
-
 	test("Profile updation?", async (done) => {
 		const res0 = await request.post("/api/signin").send({
 			email: "cb.en.u4cse18129@cb.students.amrita.edu",
@@ -43,8 +42,9 @@ describe("Profile Update check", () => {
 
 		//expect(res.status).toBe(200);
 		let token = res0.body.token;
+		let studentid = res0.body.user._id;
 		const res = await request
-			.post("/api/6065d9d87ca7e02231f427d5/updateprofile")
+			.post(`/api/${studentid}/updateprofile`)
 			.send({
 				email: "cb.en.u4cse18129@cb.students.amrita.edu",
 				studentinfo: "I am batman",
