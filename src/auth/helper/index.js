@@ -90,38 +90,41 @@ export const sectiontimetable = (timetable)=>{
 	.catch((err)=>console.log(err))
 }
 
-export const feedback_student = (userid,token,feedback) => {
-	return fetch(`${API}/student/${userid}/feedback`, {
-		method: "POST",
-		//mode:"no-cors",
-		headers: {
-			Accept: "application/json",
-			"Content-Type": "application/json",
-			Authorization: `Bearer ${token}`
-		},
-		body: JSON.stringify({user_feedback:feedback}),
-		
-	})
-		.then(response => {
-			return response.json();
+export const user_feedback=(role,userid,token,feedback)=>{
+	if(role===0){
+		return fetch(`${API}/student/${userid}/feedback`, {
+			method: "POST",
+			//mode:"no-cors",
+			headers: {
+				Accept: "application/json",
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`
+			},
+			body: JSON.stringify({user_feedback:feedback}),
+			
 		})
-		.catch((err) => console.log(err));
-};
+			.then(response => {
+				return response.json();
+			})
+			.catch((err) => console.log(err));
+	}
+	if(role===1){
+		return fetch(`${API}/teacher/${userid}/feedback`, {
+			method: "POST",
+			//mode:"no-cors",
+			headers: {
+				Accept: "application/json",
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`
+			},
+			body: JSON.stringify({user_feedback:feedback}),
+			
+		})
+			.then(response => {
+				return response.json();
+			})
+			.catch((err) => console.log(err));
+	}
+}
 
-export const feedback_teacher = (userid,token,feedback) => {
-	return fetch(`${API}/teacher/${userid}/feedback`, {
-		method: "POST",
-		//mode:"no-cors",
-		headers: {
-			Accept: "application/json",
-			"Content-Type": "application/json",
-			Authorization: `Bearer ${token}`
-		},
-		body: JSON.stringify({user_feedback:feedback}),
-		
-	})
-		.then(response => {
-			return response.json();
-		})
-		.catch((err) => console.log(err));
-};
+

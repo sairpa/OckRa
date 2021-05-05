@@ -37,7 +37,7 @@ import jsPDF from 'jspdf'
 				...values,
 				name: "",
 				success: true,
-        tt:data.timetable
+        tt:data
 			  });
 			}
 		  })
@@ -58,8 +58,9 @@ import jsPDF from 'jspdf'
 				sec:"",
 				batch:"",
 				success: true,
-        tt:data.timetable
+        tt:data
 			  });
+			  console.log(tt)
 			}
 		  })
 		  .catch(console.log("Error in signup"));
@@ -81,43 +82,63 @@ import jsPDF from 'jspdf'
    }
 
 
-   const generatePdf = () => {
-
-    
- 
-  const tableColumn = ["day","first period","Second peroid","third peroid","fourth peroid","fifth peroid","sixth peroid","seventh peroid","eighth peroid",]
+   const generatePdf = () => {   
+  if(tt.role==0){
+  const tableColumn = ["day","first period-roomno","second peroid-roomno","third peroid-roomno","fourth peroid-roomno","fifth peroid-roomno","sixth peroid-roomno"]
   const tableRows = [];
-  var doc = new jsPDF('p','pt');
+  var doc = new jsPDF('l','pt');
   var i
-for (i in tt){
-  const timetable=[
-    i,
-    tt[i][0],
-    tt[i][1],
-    tt[i][2],
-    tt[i][3],
-    tt[i][4],
-    tt[i][5],
-    tt[i][6],
-    tt[i][7]
-  ]
-  tableRows.push(timetable)
-}
-//doc.autoTable(tableColumn, tableRows, { startY: 20 });
+  const t=tt.day
+  console.log("hai")
+  console.log(t["monday"].timetable[0])
+  Object.keys(t).forEach(key => {
+	console.log(key);
+  })
+  Object.keys(t).forEach(key => {
+	const timetable=[
+		key,
+		t[key].timetable[0].concat("-",t[key].roomno[0]),
+		t[key].timetable[1].concat("-",t[key].roomno[1]),
+		t[key].timetable[2].concat("-",t[key].roomno[2]),
+		t[key].timetable[3].concat("-",t[key].roomno[3]),
+		t[key].timetable[3].concat("-",t[key].roomno[4]),
+		t[key].timetable[5].concat("-",t[key].roomno[5]),
+	  ]
+	  tableRows.push(timetable)
+	console.log(key, t[key].timetable[0]);
+  })
+
 doc.autoTable({head:[tableColumn], body:tableRows, startY:20 });
 doc.save('Test.pdf');
-    /*var doc = new jsPDF('p', 'pt');
- 
-    doc.text(20, 20, 'This is the first page title.')
- 
-   
-    doc.text(20, 60, 'This is the content area.')
-    doc.addPage() // this code creates new page in pdf document
-    
-    doc.text(20, 100, 'This is the second page.')
- 
- 
-    doc.save('sample-file.pdf')*/
+}
+if(tt.role==1){
+	const tableColumn = ["day","first period-roomno-sec","second peroid-roomno-sec","third peroid-roomno-sec","fourth peroid-roomno-sec","fifth peroid-roomno-sec","sixth peroid-roomno-sec"]
+	const tableRows = [];
+	var doc = new jsPDF('l','pt');
+	var i
+	const t=tt.day
+	console.log("hai")
+	console.log(t["monday"].timetable[0])
+	Object.keys(t).forEach(key => {
+	  console.log(key);
+	})
+	Object.keys(t).forEach(key => {
+	  const timetable=[
+		  key,
+		  t[key].timetable[0].concat("-",t[key].roomno[0],"-",t[key].section[0]),
+		  t[key].timetable[1].concat("-",t[key].roomno[1],"-",t[key].section[0]),
+		  t[key].timetable[2].concat("-",t[key].roomno[2],"-",t[key].section[0]),
+		  t[key].timetable[3].concat("-",t[key].roomno[3],"-",t[key].section[0]),
+		  t[key].timetable[3].concat("-",t[key].roomno[4],"-",t[key].section[0]),
+		  t[key].timetable[5].concat("-",t[key].roomno[5],"-",t[key].section[0]),
+		]
+		tableRows.push(timetable)
+	  console.log(key, t[key].timetable[0]);
+	})
+  
+  doc.autoTable({head:[tableColumn], body:tableRows, startY:20 });
+  doc.save('Test.pdf');	
+}
   }
 
 	const errorMessage=()=>{

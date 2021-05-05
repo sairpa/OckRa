@@ -2,9 +2,9 @@ import React,{useState} from "react";
 //import Base from "../core/Base";
 //import Jumbotron from "react-bootstrap/Jumbotron";
 import "../App.css";
-import { isAuthenticated, } from "../auth/helper";
+import { isAuthenticated,user_feedback } from "../auth/helper";
 import { Link,useParams } from "react-router-dom";
-import { feedback_student,feedback_teacher } from "../auth/helper";
+//import { feedback } from "../auth/helper";
 
 import icla from "../img/ic_launcher.png";
 import { signout } from "../auth/helper";
@@ -15,6 +15,7 @@ var rootStyle = {
 const Feedback = () => {
 	const { user } = JSON.parse(localStorage.getItem("jwt"));
 	const token = isAuthenticated() && isAuthenticated().token;
+	console.log(user.role)
     
 	//console.log(user.name);
     //let { token } = useParams();
@@ -50,8 +51,8 @@ const Feedback = () => {
 			setValues({error:"Please enter the feedback before submitting"})
 		}
 		else{
-		feedback_student(user._id,token, feedback)
-			.then((data) => {
+				user_feedback(user.role,user._id,token, feedback)
+			 	.then((data) => {
 				if (data.error) {
 					setValues({ ...values, error: data.error ,success:false});
 				} else {
@@ -63,30 +64,10 @@ const Feedback = () => {
 				}
 			})
 			.catch();
+			}
 		}
-	};
-    const onSubmit1 = (event) => {
-		event.preventDefault();
-		setValues({ ...values, error: false });
-		if(!feedback){
-			setValues({error:"Please enter the feedback before submitting"})
-		}
-		else{
-		feedback_teacher(user._id,token, feedback)
-			.then((data) => {
-				if (data.error) {
-					setValues({ ...values, error: data.error ,success:false});
-				} else {
-					setValues({
-						...values,
-						success:true,
-						feedback:""
-					});
-				}
-			})
-			.catch();
-		}
-	};
+			
+    
 
 
 	const successMessage=()=>{
@@ -211,7 +192,7 @@ const Feedback = () => {
                         <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" type="text" value={feedback} onChange={handleChange("feedback")}></textarea>
 					</div>
                     {isAuthenticated() && isAuthenticated().user.role === 1 && (
-                        <button className="btn btn-success btn-block" onClick={onSubmit1}>
+                        <button className="btn btn-success btn-block" onClick={onSubmit}>
 						Submit
 					</button>)}
                     {isAuthenticated() && isAuthenticated().user.role === 0 && (
