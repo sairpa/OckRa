@@ -1,8 +1,4 @@
 import React from "react";
-//import foo from "./foo";
-import twitter from "../img/twitter.png";
-import facebook from "../img/facebook.png";
-import instagram from "../img/instagram.png";
 import Menu from "./Menu";
 
 const Base = ({
@@ -14,7 +10,6 @@ const Base = ({
 	<div>
 		<Menu />
 		<div>{children}</div>
-		{/*<footer classsName=" footer mt-auto">*/}
 		<div className="container-fluid bg-dark ">
 			<div className="foot-content col-md-6 offset-sm-8 text-left">
 				<div className="foot2">
@@ -44,7 +39,6 @@ const Base = ({
 				</div>
 			</div>
 		</div>
-		{/*</footer>*/}
 	</div>
 );
 

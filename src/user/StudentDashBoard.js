@@ -1,43 +1,113 @@
-import React from "react";
-//import Base from "../core/Base";
-//import Jumbotron from "react-bootstrap/Jumbotron";
+import React, { useState } from "react";
 import "../App.css";
-
+import icla1 from "../img/ic_launcher1.png";
 import icla from "../img/ic_launcher.png";
-import { signout } from "../auth/helper";
+import { getuser, signout } from "../auth/helper";
 var rootStyle = {
 	height: "100vh",
 	backgroundColor: "#dae8df",
 };
 const StudentDashBoard = () => {
-	const { user } = JSON.parse(localStorage.getItem("jwt"));
-	//console.log(user.name);
+	var date = new Date();
+	var weekday = new Array(7);
+	weekday[0] = "sunday";
+	weekday[1] = "monday";
+	weekday[2] = "tuesday";
+	weekday[3] = "wednesday";
+	weekday[4] = "thursday";
+	weekday[5] = "friday";
+	weekday[6] = "saturday";
+
+	var n = weekday[date.getDay()];
+	if (date.getDay() === 6) {
+		n = "monday";
+	}
+	if (date.getDay() === 0) {
+		n = "monday";
+	}
+	
+	const [values, setValues] = useState({
+		email: "",
+		name: "",
+		sec: "",
+		usrname: "",
+		batch: "",
+		timetable: "",
+	});
+	const {sec, timetable, usrname } = values;
+
+	const { user, token } = JSON.parse(localStorage.getItem("jwt"));
+	
+	const getUser = () => {
+		getuser(user._id, token,user.role)
+			.then((data) => {
+				if (!data.error) {
+					
+					!timetable && localStorage.setItem("details", JSON.stringify(data));
+					setValues({
+						...values,
+						email: data.email,
+						name: data.name,
+						sec: data.sec,
+						usrname: data.name,
+						batch: data.batch,
+						timetable: data.timetable[0].timetable[n],
+					});
+				}
+			})
+			.catch();
+	};
+	function Listrender() {
+		
+		
+		const listItems = timetable.map((d, index) => <ol key={index}>{d}</ol>);
+
+		
+		return <div>{listItems}</div>;
+	}
+    getUser();
 	return (
 		<div>
 			<header>
-				<nav class="navbar navbar-light bg-light">
-					<a class="navbar-brand" href="/studentdashboard">
-						<img
-							src={icla}
-							width="30"
-							height="30"
-							class="d-inline-block align-top"
-							alt=""
-						/>
-						Student Dashboard
-					</a>
-				</nav>
+			{user.role === 0 && (
+					<nav className="navbar navbar-light bg-light">
+						<a className="navbar-brand" href="/studentdashboard">
+							<img
+								src={icla}
+								width="30"
+								height="30"
+								className="d-inline-block align-top"
+								alt=""
+							/>
+							Student Dashboard
+						</a>
+					</nav>
+				)}
+				{user.role === 1 && (
+					<nav className="navbar navbar-light bg-light">
+						<a className="navbar-brand" href="/teacherdashboard">
+							<img
+								src={icla1}
+								width="30"
+								height="30"
+								className="d-inline-block align-top"
+								alt=""
+							/>
+							Teacher Dashboard
+						</a>
+					</nav>
+				)}
 			</header>
 			<div className="row">
 				<div className="col-sm-1.8">
 					<div
-						class="nav flex-column nav-pills"
+						className="nav flex-column nav-pills"
 						id="v-pills-tab"
 						role="tablist"
 						aria-orientation="vertical"
 					>
 						<a
-							class="nav-link active"
+							className="nav-link active"
 							id="v-pills-home-tab"
 							data-toggle="pill"
 							href="/"
@@ -45,10 +115,10 @@ const StudentDashBoard = () => {
 							aria-controls="v-pills-home"
 							aria-selected="true"
 						>
-							<i class="fas fa-home"></i>&nbsp;Home
+							<i className="fas fa-home"></i>&nbsp;Home
 						</a>
 						<a
-							class="nav-link text-body"
+							className="nav-link text-body"
 							id="v-pills-profile-tab"
 							data-toggle="pill"
 							href="/profile"
@@ -56,10 +126,10 @@ const StudentDashBoard = () => {
 							aria-controls="v-pills-profile"
 							aria-selected="false"
 						>
-							<i class="fas fa-user"></i>&nbsp;Profile
+							<i className="fas fa-user"></i>&nbsp;Profile
 						</a>
 						<a
-							class="nav-link text-body"
+							className="nav-link text-body"
 							id="v-pills-messages-tab"
 							data-toggle="pill"
 							href="/feedback"
@@ -67,10 +137,10 @@ const StudentDashBoard = () => {
 							aria-controls="v-pills-messages"
 							aria-selected="false"
 						>
-							<i class="fas fa-book-open"></i>&nbsp;Feedback
+							<i className="fas fa-book-open"></i>&nbsp;Feedback
 						</a>
 						<a
-							class="nav-link text-body"
+							className="nav-link text-body"
 							id="v-pills-settings-tab"
 							data-toggle="pill"
 							href="/login"
@@ -78,34 +148,46 @@ const StudentDashBoard = () => {
 							aria-controls="v-pills-settings"
 							aria-selected="false"
 							onClick={() => {
-								signout(() => {});
+								signout(() => {
+									localStorage.removeItem("details");
+								});
 							}}
 						>
-							<i class="fas fa-sign-out-alt"></i>&nbsp;Logout
+							<i className="fas fa-sign-out-alt"></i>&nbsp;Logout
 						</a>
 					</div>
 				</div>
 				<div className="col-sm-11" style={rootStyle}>
-					<div class="row m-3">
-						<div class="col-sm-6">
-							<div class="card">
-								<div class="card-body">
-									<h5 class="card-title">
-										Hello {user.name} <br /> Your Notifications
+					<div className="row m-3">
+						<div className="col-sm-6">
+							<div className="card">
+								<div className="card-body">
+									<h5 className="card-title">
+										Hello {usrname}
+										<br /> Your Notifications
 									</h5>
-									<p class="card-text"></p>
+									<p className="card-text"></p>
 								</div>
 							</div>
 						</div>
-						<div class="col-sm-6">
-							<div class="card">
-								<div class="card-body">
-									<h5 class="card-title">Classroom Allotted</h5>
-									<p class="card-text"></p>
+						<div className="col-sm-6">
+							<div className="card">
+								<div className="card-body">
+								{user.role === 0 && (
+										<h5 className="card-title">
+											Classroom Allotted for {sec} ({n})
+										</h5>
+									)}
+									{user.role === 1 && (
+										<h5 className="card-title">Classroom Allotted</h5>
+									)}
+									{timetable && Listrender()}
+									<p className="card-text"></p>
 								</div>
 							</div>
 						</div>
 					</div>
+					{/*<p className=" text-center">{JSON.stringify(values)}</p>*/}
 				</div>
 			</div>
 		</div>

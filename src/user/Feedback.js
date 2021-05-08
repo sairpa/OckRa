@@ -1,13 +1,11 @@
-import React,{useState} from "react";
-//import Base from "../core/Base";
-//import Jumbotron from "react-bootstrap/Jumbotron";
+import React, { useState } from "react";
 import "../App.css";
-import { isAuthenticated,user_feedback } from "../auth/helper";
-import { Link,useParams } from "react-router-dom";
-//import { feedback } from "../auth/helper";
 
+import { Link} from "react-router-dom";
+import { user_feedback, signout, isAuthenticated } from "../auth/helper";
+import icla1 from "../img/ic_launcher1.png";
 import icla from "../img/ic_launcher.png";
-import { signout } from "../auth/helper";
+
 var rootStyle = {
 	height: "100vh",
 	backgroundColor: "#dae8df",
@@ -15,18 +13,15 @@ var rootStyle = {
 const Feedback = () => {
 	const { user } = JSON.parse(localStorage.getItem("jwt"));
 	const token = isAuthenticated() && isAuthenticated().token;
-	console.log(user.role)
-    
-	//console.log(user.name);
-    //let { token } = useParams();
+
+	
 	const [values, setValues] = useState({
 		feedback: "",
 		error: "",
-		success:false
+		success: false,
 	});
-	const { feedback, error,success} = values;
-	//console.log(email.concat(token));
-	const handleChange = name => event => {
+	const { feedback, error, success } = values;
+	const handleChange = (name) => (event) => {
 		setValues({ ...values, error: false, [name]: event.target.value });
 	};
 
@@ -44,6 +39,7 @@ const Feedback = () => {
 			</div>
 		);
 	};
+	
 	const onSubmit = (event) => {
 		event.preventDefault();
 		setValues({ ...values, error: false });
@@ -66,61 +62,61 @@ const Feedback = () => {
 			.catch();
 			}
 		}
-			
-    
 
-
-	const successMessage=()=>{
-        return(
-        <div className="row">
-            <div className="row px-5">
-        <div className="alert alert-success"
-        style={{display:success?"":"none"}}>
-            Thanks for the feedback given.
-        </div>
-        </div>
-        </div>)
-   }
+	const successMessage = () => {
+		return (
+			<div className="row">
+				<div className="row px-5">
+					<div
+						className="alert alert-success"
+						style={{ display: success ? "" : "none" }}
+					>
+						Thanks for the feedback given.
+					</div>
+				</div>
+			</div>
+		);
+	};
 	return (
 		<div>
 			<header>
 				<nav class="navbar navbar-light bg-light">
-                {isAuthenticated() && isAuthenticated().user.role === 0 && (
-				<div class="navbar-brand">
-					<img
-						src={icla}
-						width="30"
-						height="30"
-						class="d-inline-block align-top"
-						alt=""
-					/>
-					<Link
-							to="/studentdashboard"
-							className="px-4"
-							style={{ color: "#000000" }}
-						>
-							Student Dashboard
-						</Link>
-				</div>
-			)}
-			{isAuthenticated() && isAuthenticated().user.role === 1 && (
-				<div class="navbar-brand">
-					<img
-						src={icla}
-						width="30"
-						height="30"
-						class="d-inline-block align-top"
-						alt=""
-					/>
-					<Link
-							to="/teacherdashboard"
-							className="px-4"
-							style={{ color: "#000000" }}
-						>
-							Teacher Dashboard
-						</Link>
-				</div>
-			)}
+					{isAuthenticated() && isAuthenticated().user.role === 0 && (
+						<div class="navbar-brand">
+							<img
+								src={icla}
+								width="30"
+								height="30"
+								class="d-inline-block align-top"
+								alt=""
+							/>
+							<Link
+								to="/studentdashboard"
+								className="px-4"
+								style={{ color: "#000000" }}
+							>
+								Student Dashboard
+							</Link>
+						</div>
+					)}
+					{isAuthenticated() && isAuthenticated().user.role === 1 && (
+						<div class="navbar-brand">
+							<img
+								src={icla1}
+								width="30"
+								height="30"
+								class="d-inline-block align-top"
+								alt=""
+							/>
+							<Link
+								to="/teacherdashboard"
+								className="px-4"
+								style={{ color: "#000000" }}
+							>
+								Teacher Dashboard
+							</Link>
+						</div>
+					)}
 				</nav>
 			</header>
 			<div className="row">
@@ -173,7 +169,9 @@ const Feedback = () => {
 							aria-controls="v-pills-settings"
 							aria-selected="false"
 							onClick={() => {
-								signout(() => {});
+								signout(() => {
+									localStorage.removeItem("details");
+								});
 							}}
 						>
 							<i class="fas fa-sign-out-alt"></i>&nbsp;Logout
@@ -181,29 +179,40 @@ const Feedback = () => {
 					</div>
 				</div>
 				<div className="col-sm-11" style={rootStyle}>
-                <div className="row">
-			<div className="col-md-6 offset-sm-3 text-left">
-				
-				<form>
-					{successMessage()},
-            		{errorMessage()}
-					<div className="form-group">
-						<label>Feedback</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" type="text" value={feedback} onChange={handleChange("feedback")}></textarea>
+					<div className="row">
+						<div className="col-md-6 offset-sm-3 text-left">
+							<form>
+								{successMessage()},{errorMessage()}
+								<div className="form-group">
+									<label>Feedback</label>
+									<textarea
+										class="form-control"
+										id="exampleFormControlTextarea1"
+										rows="5"
+										type="text"
+										value={feedback}
+										onChange={handleChange("feedback")}
+									></textarea>
+								</div>
+								{isAuthenticated() && isAuthenticated().user.role === 1 && (
+									<button
+										className="btn btn-success btn-block"
+										onClick={onSubmit}
+									>
+										Submit
+									</button>
+								)}
+								{isAuthenticated() && isAuthenticated().user.role === 0 && (
+									<button
+										className="btn btn-success btn-block"
+										onClick={onSubmit}
+									>
+										Submit
+									</button>
+								)}
+							</form>
+						</div>
 					</div>
-                    {isAuthenticated() && isAuthenticated().user.role === 1 && (
-                        <button className="btn btn-success btn-block" onClick={onSubmit}>
-						Submit
-					</button>)}
-                    {isAuthenticated() && isAuthenticated().user.role === 0 && (
-                        <button className="btn btn-success btn-block" onClick={onSubmit}>
-						Submit
-					</button>)}
-
-					
-				</form>
-			</div>
-		</div>
 				</div>
 			</div>
 		</div>

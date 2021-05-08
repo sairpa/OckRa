@@ -1,14 +1,13 @@
 import React, { useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import { resetpass } from "../auth/helper";
+import { forgotpassword } from "../auth/helper";
 
-export default function Forgotpass() {
-	let { email, token } = useParams();
+
+export default function Sendmail() {
 	const [values, setValues] = useState({
-		password: "",
+		email: "",
 		error: "",
 	});
-	const { password, error } = values;
+	const { email, error } = values;
 	const handleChange = (field) => (event) => {
 		setValues({ ...values, error: false, [field]: event.target.value });
 	};
@@ -30,44 +29,33 @@ export default function Forgotpass() {
 	const onSubmit = (event) => {
 		event.preventDefault();
 		setValues({ ...values, error: false });
-		resetpass(email, token, password)
+		forgotpassword(email)
 			.then((data) => {
 				if (data.error) {
 					setValues({ ...values, error: data.error });
 				} else {
 					setValues({
 						...values,
-						error: (
-							<Link to="/login">Password Updated,Click here to Login</Link>
-						),
+						error: "Mail Succesfully sent to your account",
 					});
 				}
 			})
 			.catch();
 	};
+
 	return (
 		<div className="row">
 			<div className="col-md-6 offset-sm-3 text-left">
-				<p className="text-center">Link to resetPassword</p>
+				<p className="text-center">Enter Email to get reset the password</p>
 				{errormessage()}
 				<form>
 					<div className="form-group">
 						<label>Email</label>
 						<input
 							value={email}
-							readOnly
+							onChange={handleChange("email")}
 							className="form-control"
 							type="email"
-						/>
-					</div>
-
-					<div className="form-group">
-						<label>Password</label>
-						<input
-							className="form-control"
-							type="password"
-							value={password}
-							onChange={handleChange("password")}
 						/>
 					</div>
 					<button className="btn btn-success btn-block" onClick={onSubmit}>
