@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-//import Base from "../core/Base";
-//import Jumbotron from "react-bootstrap/Jumbotron";
 import "../App.css";
-
+import { Card } from "semantic-ui-react";
+import icla1 from "../img/ic_launcher1.png";
 import icla from "../img/ic_launcher.png";
 import { getuser, signout } from "../auth/helper";
 var rootStyle = {
@@ -10,7 +9,7 @@ var rootStyle = {
 	backgroundColor: "#dae8df",
 };
 const StudentDashBoard = () => {
-	var d = new Date();
+	var date = new Date();
 	var weekday = new Array(7);
 	weekday[0] = "sunday";
 	weekday[1] = "monday";
@@ -20,14 +19,14 @@ const StudentDashBoard = () => {
 	weekday[5] = "friday";
 	weekday[6] = "saturday";
 
-	var n = weekday[d.getDay()];
-	if (d.getDay() === 6) {
+	var n = weekday[date.getDay()];
+	if (date.getDay() === 6) {
 		n = "monday";
 	}
-	if (d.getDay() === 0) {
+	if (date.getDay() === 0) {
 		n = "monday";
 	}
-	//console.log(n);
+
 	const [values, setValues] = useState({
 		email: "",
 		name: "",
@@ -36,20 +35,14 @@ const StudentDashBoard = () => {
 		batch: "",
 		timetable: "",
 	});
-	const { email, sec, error, batch, timetable, usrname } = values;
+	const { sec, timetable, usrname } = values;
 
 	const { user, token } = JSON.parse(localStorage.getItem("jwt"));
-	var test = 1;
-	//console.log(test);
-	//console.log(token);
-	//console.log(user.name);
+
 	const getUser = () => {
-		getuser(user._id, token)
+		getuser(user._id, token, user.role)
 			.then((data) => {
 				if (!data.error) {
-					//console.log("wrws", test);
-					//console.log(data.sec, data.mobileno);
-					const { sec } = data;
 					!timetable && localStorage.setItem("details", JSON.stringify(data));
 					setValues({
 						...values,
@@ -58,7 +51,7 @@ const StudentDashBoard = () => {
 						sec: data.sec,
 						usrname: data.name,
 						batch: data.batch,
-						timetable: data.timetable[0].timetable[n],
+						timetable: data.timetable[0]["day"][n],
 					});
 				}
 			})
@@ -67,30 +60,63 @@ const StudentDashBoard = () => {
 	function Listrender() {
 		// Build an array of items
 		let array = [];
-		const listItems = timetable.map((d, index) => <ol key={index}>{d}</ol>);
+		let time = timetable["timetable"];
+		let room = timetable["roomno"];
+		let teacher = timetable["teacher"];
+		time.map((d, index) => {
+			array.push(
+				<Card.Group>
+					<Card color="teal">
+						<Card.Content>
+							<Card.Header>
+								{index + 1}. {d}
+							</Card.Header>
+							<Card.Meta>{teacher[index]}</Card.Meta>
+							<Card.Description>{room[index]}</Card.Description>
+						</Card.Content>
+					</Card>
+				</Card.Group>
+			);
+		});
 
 		// Render it
-		return <div>{listItems}</div>;
+		return array;
 	}
 	getUser();
 	return (
 		<div>
 			<header>
-				<nav className="navbar navbar-light bg-light">
-					<a className="navbar-brand" href="/studentdashboard">
-						<img
-							src={icla}
-							width="30"
-							height="30"
-							className="d-inline-block align-top"
-							alt=""
-						/>
-						Student Dashboard
-					</a>
-				</nav>
+				{user.role === 0 && (
+					<nav className="navbar navbar-light bg-light">
+						<a className="navbar-brand" href="/studentdashboard">
+							<img
+								src={icla}
+								width="30"
+								height="30"
+								className="d-inline-block align-top"
+								alt=""
+							/>
+							Student Dashboard
+						</a>
+					</nav>
+				)}
+				{user.role === 1 && (
+					<nav className="navbar navbar-light bg-light">
+						<a className="navbar-brand" href="/teacherdashboard">
+							<img
+								src={icla1}
+								width="30"
+								height="30"
+								className="d-inline-block align-top"
+								alt=""
+							/>
+							Teacher Dashboard
+						</a>
+					</nav>
+				)}
 			</header>
 			<div className="row">
-				<div className="col-sm-1.8">
+				<div className="col-sm-2">
 					<div
 						className="nav flex-column nav-pills"
 						id="v-pills-tab"
@@ -139,15 +165,16 @@ const StudentDashBoard = () => {
 							aria-controls="v-pills-settings"
 							aria-selected="false"
 							onClick={() => {
-								localStorage.removeItem("details");
-								signout(() => {});
+								signout(() => {
+									localStorage.removeItem("details");
+								});
 							}}
 						>
 							<i className="fas fa-sign-out-alt"></i>&nbsp;Logout
 						</a>
 					</div>
 				</div>
-				<div className="col-sm-11" style={rootStyle}>
+				<div className="col-sm-10" style={rootStyle}>
 					<div className="row m-3">
 						<div className="col-sm-6">
 							<div className="card">
@@ -163,9 +190,14 @@ const StudentDashBoard = () => {
 						<div className="col-sm-6">
 							<div className="card">
 								<div className="card-body">
-									<h5 className="card-title">
-										Classroom Allotted for {sec} ({n})
-									</h5>
+									{user.role === 0 && (
+										<h5 className="card-title">
+											Classroom Allotted for {sec} ({n})
+										</h5>
+									)}
+									{user.role === 1 && (
+										<h5 className="card-title">Classroom Allotted</h5>
+									)}
 									{timetable && Listrender()}
 									<p className="card-text"></p>
 								</div>

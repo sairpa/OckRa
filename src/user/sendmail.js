@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { forgotpassword } from "../auth/helper";
-//import { Link } from "react-router-dom";
+
 
 export default function Sendmail() {
 	const [values, setValues] = useState({
@@ -8,7 +8,6 @@ export default function Sendmail() {
 		error: "",
 	});
 	const { email, error } = values;
-	//console.log(email.concat(token));
 	const handleChange = (field) => (event) => {
 		setValues({ ...values, error: false, [field]: event.target.value });
 	};

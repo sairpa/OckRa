@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-//import "../styles.css";
-import { API } from "../backend";
 import hom from "../img/home.jpg";
 import Base from "./Base";
 import Carousel from "react-bootstrap/Carousel";
@@ -8,7 +6,7 @@ import { teachertimetable, sectiontimetable } from "../auth/helper";
 import "jspdf-autotable";
 import jsPDF from "jspdf";
 
-const Search_timetable = () => {
+const Home = () => {
 	const [values, setValues] = useState({
 		name: "",
 		sec: "",
@@ -24,7 +22,6 @@ const Search_timetable = () => {
 	};
 
 	const onSubmit = (event) => {
-		//console.log("summa");
 		event.preventDefault();
 		setValues({ ...values, error: false });
 		teachertimetable({ name })
@@ -44,7 +41,6 @@ const Search_timetable = () => {
 	};
 
 	const onSubmit1 = (event) => {
-		//console.log("summa");
 		event.preventDefault();
 		setValues({ ...values, error: false });
 		sectiontimetable({ sec, batch })
@@ -111,18 +107,7 @@ const Search_timetable = () => {
 		}
 		doc.autoTable({ head: [tableColumn], body: tableRows, startY: 20 });
 		doc.save("Test.pdf");
-		/*var doc = new jsPDF('p', 'pt');
- 
-    doc.text(20, 20, 'This is the first page title.')
- 
-   
-    doc.text(20, 60, 'This is the content area.')
-    doc.addPage() // this code creates new page in pdf document
-    
-    doc.text(20, 100, 'This is the second page.')
- 
- 
-    doc.save('sample-file.pdf')*/
+		
 	};
 
 	const errorMessage = () => {
@@ -226,4 +211,4 @@ const Search_timetable = () => {
 	);
 };
 
-export default Search_timetable;
+export default Home;

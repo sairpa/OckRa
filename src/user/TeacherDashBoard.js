@@ -3,7 +3,7 @@ import React, { useState } from "react";
 //import Jumbotron from "react-bootstrap/Jumbotron";
 import "../App.css";
 
-import icla from "../img/ic_launcher.png";
+import icla from "../img/ic_launcher1.png";
 import { getTeacher, signout } from "../auth/helper";
 
 var rootStyle = {
@@ -136,8 +136,9 @@ const TeacherDashBoard = () => {
 							aria-controls="v-pills-settings"
 							aria-selected="false"
 							onClick={() => {
-								localStorage.removeItem("details");
-								signout(() => {});
+								signout(() => {
+									localStorage.removeItem("details");
+								});
 							}}
 						>
 							<i className="fas fa-sign-out-alt"></i>&nbsp;Logout

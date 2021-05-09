@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { resetpass } from "../auth/helper";
 
-//import Base from "../core/Base";
-
 export default function Forgotpass() {
 	let { email, token } = useParams();
 	const [values, setValues] = useState({
@@ -11,7 +9,6 @@ export default function Forgotpass() {
 		error: "",
 	});
 	const { password, error } = values;
-	//console.log(email.concat(token));
 	const handleChange = (field) => (event) => {
 		setValues({ ...values, error: false, [field]: event.target.value });
 	};

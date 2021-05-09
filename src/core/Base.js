@@ -1,8 +1,4 @@
 import React from "react";
-//import foo from "./foo";
-import twitter from "../img/twitter.png";
-import facebook from "../img/facebook.png";
-import instagram from "../img/instagram.png";
 import Menu from "./Menu";
 
 const Base = ({

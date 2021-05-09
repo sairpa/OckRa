@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import loginto from "../img/loginto.svg";
 import Base from "../core/Base";
-import { Link, Redirect, withRouter } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { authenticate, isAuthenticated, signin } from "../auth/helper";
 
 const Signin = () => {
@@ -12,8 +12,8 @@ const Signin = () => {
 		loading: false,
 		didRedirect: false,
 	});
-	//window.location.reload();
-	const { email, password, error, loading, didRedirect } = values;
+	
+	const { email, password, error, didRedirect } = values;
 	const { user } = isAuthenticated();
 	const handleChange = (field) => (event) => {
 		setValues({ ...values, error: false, [field]: event.target.value });
@@ -22,7 +22,7 @@ const Signin = () => {
 	const onSubmit = (event) => {
 		event.preventDefault();
 		setValues({ ...values, error: false, loading: true });
-		//console.log("efefkmdl");
+		
 		signin({ email, password })
 			.then((data) => {
 				if (data.error) {

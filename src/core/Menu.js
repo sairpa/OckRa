@@ -2,13 +2,7 @@ import React, { Fragment } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { isAuthenticated, signout } from "../auth/helper";
 import icla from "../img/ic_launcher.png";
-/*const currentTab = (history, path) => {
-	if (history.location.pathname === path) {
-		return { color: "#2ecc72" };
-	} else {
-		return { color: "#000000" };
-	}
-};*/
+import icla1 from "../img/ic_launcher1.png";
 
 const Menu = ({ history }) => (
 	<div className="container-fluid">
@@ -28,7 +22,7 @@ const Menu = ({ history }) => (
 			{isAuthenticated() && isAuthenticated().user.role === 1 && (
 				<div className="navbar-brand">
 					<img
-						src={icla}
+						src={icla1}
 						width="30"
 						height="30"
 						className="d-inline-block align-top"
@@ -47,46 +41,42 @@ const Menu = ({ history }) => (
 					</Link>
 				)}
 
-				{isAuthenticated() && isAuthenticated().user.role === 0 && (
-					<Fragment>
-						<Link
-							to="/studentdashboard"
-							className="px-4"
-							style={{ color: "#000000" }}
-						>
-							Dashboard
-						</Link>
-						<Link
-							className="cmn-btn px-4"
-							onClick={() => {
-								signout(() => {});
-							}}
-							to="/login"
-						>
-							Signout
-						</Link>
-					</Fragment>
-				)}
-				{isAuthenticated() && isAuthenticated().user.role === 1 && (
-					<Fragment>
-						<Link
-							to="/teacherdashboard"
-							className="px-4"
-							style={{ color: "#000000" }}
-						>
-							Dashboard
-						</Link>
-						<Link
-							className="cmn-btn px-4"
-							onClick={() => {
-								signout(() => {});
-							}}
-							to="/login"
-						>
-							Signout
-						</Link>
-					</Fragment>
-				)}
+{isAuthenticated() &&
+					(isAuthenticated().user.role === 0 ||
+						isAuthenticated().user.role === 1) && (
+						<Fragment>
+							{isAuthenticated().user.role === 0 && (
+								<Link
+									to="/studentdashboard"
+									className="px-4"
+									style={{ color: "#000000" }}
+								>
+									Dashboard
+								</Link>
+							)}
+							{isAuthenticated().user.role === 1 && (
+								<Link
+									to="/teacherdashboard"
+									className="px-4"
+									style={{ color: "#000000" }}
+								>
+									Dashboard
+								</Link>
+							)}
+							<Link
+								className="cmn-btn px-4"
+								onClick={() => {
+									signout(() => {
+										localStorage.removeItem("details");
+									});
+								}}
+								to="/login"
+							>
+								Signout
+							</Link>
+						</Fragment>
+					)}
+				
 			</ul>
 		</nav>
 	</div>

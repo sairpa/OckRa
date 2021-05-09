@@ -1,13 +1,11 @@
 import React, { useState } from "react";
-//import Base from "../core/Base";
-//import Jumbotron from "react-bootstrap/Jumbotron";
 import "../App.css";
-import { isAuthenticated } from "../auth/helper";
-import { Link, useParams } from "react-router-dom";
-import { feedback_student, feedback_teacher } from "../auth/helper";
 
+import { Link} from "react-router-dom";
+import { user_feedback, signout, isAuthenticated } from "../auth/helper";
+import icla1 from "../img/ic_launcher1.png";
 import icla from "../img/ic_launcher.png";
-import { signout } from "../auth/helper";
+
 var rootStyle = {
 	height: "100vh",
 	backgroundColor: "#dae8df",
@@ -16,15 +14,13 @@ const Feedback = () => {
 	const { user } = JSON.parse(localStorage.getItem("jwt"));
 	const token = isAuthenticated() && isAuthenticated().token;
 
-	//console.log(user.name);
-	//let { token } = useParams();
+	
 	const [values, setValues] = useState({
 		feedback: "",
 		error: "",
 		success: false,
 	});
 	const { feedback, error, success } = values;
-	//console.log(email.concat(token));
 	const handleChange = (name) => (event) => {
 		setValues({ ...values, error: false, [name]: event.target.value });
 	};
@@ -43,48 +39,29 @@ const Feedback = () => {
 			</div>
 		);
 	};
+	
 	const onSubmit = (event) => {
 		event.preventDefault();
 		setValues({ ...values, error: false });
-		if (!feedback) {
-			setValues({ error: "Please enter the feedback before submitting" });
-		} else {
-			feedback_student(user._id, token, feedback)
-				.then((data) => {
-					if (data.error) {
-						setValues({ ...values, error: data.error, success: false });
-					} else {
-						setValues({
-							...values,
-							success: true,
-							feedback: "",
-						});
-					}
-				})
-				.catch();
+		if(!feedback){
+			setValues({error:"Please enter the feedback before submitting"})
 		}
-	};
-	const onSubmit1 = (event) => {
-		event.preventDefault();
-		setValues({ ...values, error: false });
-		if (!feedback) {
-			setValues({ error: "Please enter the feedback before submitting" });
-		} else {
-			feedback_teacher(user._id, token, feedback)
-				.then((data) => {
-					if (data.error) {
-						setValues({ ...values, error: data.error, success: false });
-					} else {
-						setValues({
-							...values,
-							success: true,
-							feedback: "",
-						});
-					}
-				})
-				.catch();
+		else{
+				user_feedback(user.role,user._id,token, feedback)
+			 	.then((data) => {
+				if (data.error) {
+					setValues({ ...values, error: data.error ,success:false});
+				} else {
+					setValues({
+						...values,
+						success:true,
+						feedback:""
+					});
+				}
+			})
+			.catch();
+			}
 		}
-	};
 
 	const successMessage = () => {
 		return (
@@ -125,7 +102,7 @@ const Feedback = () => {
 					{isAuthenticated() && isAuthenticated().user.role === 1 && (
 						<div class="navbar-brand">
 							<img
-								src={icla}
+								src={icla1}
 								width="30"
 								height="30"
 								class="d-inline-block align-top"
@@ -192,7 +169,9 @@ const Feedback = () => {
 							aria-controls="v-pills-settings"
 							aria-selected="false"
 							onClick={() => {
-								signout(() => {});
+								signout(() => {
+									localStorage.removeItem("details");
+								});
 							}}
 						>
 							<i class="fas fa-sign-out-alt"></i>&nbsp;Logout
@@ -218,7 +197,7 @@ const Feedback = () => {
 								{isAuthenticated() && isAuthenticated().user.role === 1 && (
 									<button
 										className="btn btn-success btn-block"
-										onClick={onSubmit1}
+										onClick={onSubmit}
 									>
 										Submit
 									</button>
