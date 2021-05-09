@@ -7,12 +7,7 @@ describe("Feedback check", () => {
 			email: "cb.en.u4cse18129@cb.students.amrita.edu",
 			password: "admin123",
 		});
-		/*const res = await request
-			.post("/api/student/6065d9d87ca7e02231f427d5/feedback")
-			.send({
-				email: "cb.en.u4cse18129@cb.students.amrita.edu",
-			});*/
-		//expect(res.status).toBe(200);
+
 		let token = res0.body.token;
 		let studentid = res0.body.user._id;
 
@@ -29,8 +24,6 @@ describe("Feedback check", () => {
 
 		done();
 	}, 30000);
-
-	//test("Email matching", async (done) => {});
 });
 
 describe("Profile Update check", () => {
@@ -40,7 +33,6 @@ describe("Profile Update check", () => {
 			password: "admin123",
 		});
 
-		//expect(res.status).toBe(200);
 		let token = res0.body.token;
 		let studentid = res0.body.user._id;
 		const res = await request
@@ -57,16 +49,4 @@ describe("Profile Update check", () => {
 
 		done();
 	}, 30000);
-
-	//test("Email matching", async (done) => {});
 });
-
-/*describe("Forgot password mail sendind...", () => {
-	test("Got mail?", async (done) => {
-		const res = await request.post("/api/forgotpassword").send({
-			email: "waran715@gmail.com",
-		});
-		expect(res.status).toBe(200);
-		expect(res.body.error).toBeFalsy();
-	}, 100000);
-});*/

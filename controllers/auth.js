@@ -38,9 +38,7 @@ exports.student_timetableInput = async (req, res) => {
 				error: "student timetable cant be created",
 			});
 		}
-		return res.json({
-			timetable: studenttimetable,
-		});
+		return res.json(timetable);
 	});
 };
 
@@ -52,9 +50,7 @@ exports.teacher_timetableInput = async (req, res) => {
 				error: "student timetable cant be created",
 			});
 		}
-		return res.json({
-			timetable: teachertimetable,
-		});
+		return res.json(timetable);
 	});
 };
 
