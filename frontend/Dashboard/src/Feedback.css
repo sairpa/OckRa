@@ -1,0 +1,15 @@
+.feedback{
+    padding-left: 220px;
+}
+.head{
+    text-align: center;
+}
+.button{
+    border-top-color:#11FFBD;
+    border-bottom-color: #AAFFA9;
+    border-radius: 50px;
+}
+.space{
+    margin-top: 50px;
+    margin-bottom: 50px;
+}

@@ -1,0 +1,24 @@
+.profile {
+  padding-left: 220px;
+}
+.heading{
+  text-align: center;
+}
+.button
+{
+  margin-top: 50px;
+  width: 500px;
+  border-radius: 50%;
+  margin-bottom: 50px;
+}
+.image{
+  height: 250px;
+  width: 250px;
+}
+.space{
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
+  background-color:black !important;
+}

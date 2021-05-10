@@ -1,0 +1,21 @@
+.sidebar-nav {
+  width: 200px;
+  height: 100vh;
+  position: fixed;
+  background: white;
+}
+.sidebar-nav ul {
+  list-style: none;
+  padding-top: 80px;
+}
+.sidebar-nav ul li {
+  color: black;
+  font-size: 20px;
+  text-align: center;
+  text-decoration: none;
+}
+.sidebar-nav ul li:hover {
+  color:black;
+}
+
+
