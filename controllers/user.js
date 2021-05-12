@@ -17,21 +17,7 @@ exports.findStudentbyId = async (req, res, next, id) => {
 		req.profile = student;
 		req.profile.salt = undefined;
 		req.profile.encry_password = undefined;
-		{
-			/*StudentTimeTable.findOne(
-			{ sec: student.sec, batch: student.batch },
-			(err, tt) => {
-				if (err || !tt) {
-					return res.status(400).json({
-						error: "no timetable found the database for your section",
-					});
-				}
-				student.timetable = tt;
-				//console.log(tt)
-				student.save();
-			}
-		);*/
-		}
+
 		next();
 	});
 };
@@ -51,9 +37,32 @@ exports.findTeacherbyId = async (req, res, next, id) => {
 };
 exports.getUser = async (req, res) => {
 	if (req.profile.role == 1) {
-		return res.json(req.profile);
+		return TeacherTimetable.findOne({ name: req.profile.name }, (err, tt) => {
+			if (err || !tt) {
+				return res.status(400).json({
+					error: "no timetable found in the database",
+				});
+			}
+			req.profile.timetable = tt;
+			//console.log(tt)
+			//student.save();
+			return res.json(req.profile);
+		});
 	}
-	return res.json(req.profile);
+	return StudentTimeTable.findOne(
+		{ sec: req.profile.sec, batch: req.profile.batch },
+		(err, tt) => {
+			if (err || !tt) {
+				return res.status(400).json({
+					error: "no timetable found the database for your section",
+				});
+			}
+			req.profile.timetable = tt;
+			//console.log();
+			//student.save();
+			return res.json(req.profile);
+		}
+	);
 };
 
 exports.enter_feedback = async (req, res) => {
