@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-import "../App.css";
+import "../Card.css";
 import { Card } from "semantic-ui-react";
 import icla1 from "../img/ic_launcher1.png";
 import icla from "../img/ic_launcher.png";
 import { getuser, signout } from "../auth/helper";
-var rootStyle = {
-	height: "100vh",
-	backgroundColor: "#dae8df",
-};
+import x1 from "../img/undraw_annotation_7das.svg";
+
+// var rootStyle = {
+// 	height: "100vh",
+// 	backgroundColor: "#dae8df",
+// };
 const StudentDashBoard = () => {
 	var date = new Date();
 	var weekday = new Array(7);
@@ -116,65 +118,116 @@ const StudentDashBoard = () => {
 				)}
 			</header>
 			<div className="row">
-				<div className="col-sm-2">
-					<div
-						className="nav flex-column nav-pills"
-						id="v-pills-tab"
-						role="tablist"
-						aria-orientation="vertical"
-					>
-						<a
-							className="nav-link active"
-							id="v-pills-home-tab"
-							data-toggle="pill"
-							href="/"
-							role="tab"
-							aria-controls="v-pills-home"
-							aria-selected="true"
+				{
+					<div className="col-sm-2">
+						<div
+							className="nav flex-column nav-pills"
+							id="v-pills-tab"
+							role="tablist"
+							aria-orientation="vertical"
 						>
-							<i className="fas fa-home"></i>&nbsp;Home
-						</a>
-						<a
-							className="nav-link text-body"
-							id="v-pills-profile-tab"
-							data-toggle="pill"
-							href="/profile"
-							role="tab"
-							aria-controls="v-pills-profile"
-							aria-selected="false"
-						>
-							<i className="fas fa-user"></i>&nbsp;Profile
-						</a>
-						<a
-							className="nav-link text-body"
-							id="v-pills-messages-tab"
-							data-toggle="pill"
-							href="/feedback"
-							role="tab"
-							aria-controls="v-pills-messages"
-							aria-selected="false"
-						>
-							<i className="fas fa-book-open"></i>&nbsp;Feedback
-						</a>
-						<a
-							className="nav-link text-body"
-							id="v-pills-settings-tab"
-							data-toggle="pill"
-							href="/login"
-							role="tab"
-							aria-controls="v-pills-settings"
-							aria-selected="false"
-							onClick={() => {
-								signout(() => {
-									localStorage.removeItem("details");
-								});
-							}}
-						>
-							<i className="fas fa-sign-out-alt"></i>&nbsp;Logout
-						</a>
+							<a
+								className="nav-link active"
+								id="v-pills-home-tab"
+								data-toggle="pill"
+								href="/"
+								role="tab"
+								aria-controls="v-pills-home"
+								aria-selected="true"
+							>
+								<i className="fas fa-home"></i>&nbsp;Home
+							</a>
+							<a
+								className="nav-link text-body"
+								id="v-pills-profile-tab"
+								data-toggle="pill"
+								href="/profile"
+								role="tab"
+								aria-controls="v-pills-profile"
+								aria-selected="false"
+							>
+								<i className="fas fa-user"></i>&nbsp;Profile
+							</a>
+							<a
+								className="nav-link text-body"
+								id="v-pills-messages-tab"
+								data-toggle="pill"
+								href="/feedback"
+								role="tab"
+								aria-controls="v-pills-messages"
+								aria-selected="false"
+							>
+								<i className="fas fa-book-open"></i>&nbsp;Feedback
+							</a>
+							<a
+								className="nav-link text-body"
+								id="v-pills-settings-tab"
+								data-toggle="pill"
+								href="/login"
+								role="tab"
+								aria-controls="v-pills-settings"
+								aria-selected="false"
+								onClick={() => {
+									signout(() => {
+										localStorage.removeItem("details");
+									});
+								}}
+							>
+								<i className="fas fa-sign-out-alt"></i>&nbsp;Logout
+							</a>
+						</div>
+					</div>
+				}
+				<div className="col-sm-10 color h">
+					<div className="App color h ">
+						<div className="container">
+							<div className="classalot">
+								<h1 className="heading">
+									{" "}
+									<img
+										src={x1}
+										class="img-fluid image"
+										alt="profile img"
+										width="250"
+										height="250"
+									></img>{" "}
+									&nbsp; DASHBOARD{" "}
+								</h1>
+
+								<div class="row m-3 ">
+									<div class="col-sm-6">
+										<div class="card">
+											<div class="card-body color">
+												<h5 class="card-title">
+													Hello {usrname}
+													<br /> Your Notifications
+												</h5>
+												<p class="card-text"></p>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-6">
+										<div class="card">
+											<div class="card-body color">
+												{user.role === 0 && (
+													<h5 className="card-title">
+														Classroom Allotted for {sec} ({n})
+													</h5>
+												)}
+												{user.role === 1 && (
+													<h5 className="card-title">Classroom Allotted</h5>
+												)}
+												{timetable && Listrender()}
+												<p className="card-text"></p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
-				<div className="col-sm-10" style={rootStyle}>
+				{/*<div className="col-sm-10" style={rootStyle}>
 					<div className="row m-3">
 						<div className="col-sm-6">
 							<div className="card">
@@ -204,8 +257,7 @@ const StudentDashBoard = () => {
 							</div>
 						</div>
 					</div>
-					{/*<p className=" text-center">{JSON.stringify(values)}</p>*/}
-				</div>
+				</div>*/}
 			</div>
 		</div>
 	);
