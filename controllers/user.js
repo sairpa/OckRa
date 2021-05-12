@@ -272,15 +272,27 @@ exports.check_Token = async (req, res, next, id) => {
 exports.update_profile = async (req, res) => {
 	//console.log(req.profile.role);
 	if (req.profile.role === 0) {
-		let { studentinfo, mobileno } = req.body;
+		let { studentinfo, mobileno, address, city, pincode } = req.body;
 		let updates;
 		if (studentinfo) {
 			updates = {
 				$push: { studentinfo: studentinfo },
-				$set: { mobileno: mobileno },
+				$set: {
+					mobileno: mobileno,
+					address: address,
+					city: city,
+					pincode: pincode,
+				},
 			};
 		} else {
-			updates = { $set: { mobileno: mobileno } };
+			updates = {
+				$set: {
+					mobileno: mobileno,
+					address: address,
+					city: city,
+					pincode: pincode,
+				},
+			};
 		}
 		Student.findOneAndUpdate(
 			{ email: req.profile.email },
@@ -308,10 +320,10 @@ exports.update_profile = async (req, res) => {
 		if (teacherinfo) {
 			updates = {
 				$push: { teacherinfo: teacherinfo },
-				$set: { mobileno: mobileno },
+				$set: { studentinfo, mobileno, address, city, pincode },
 			};
 		} else {
-			updates = { $set: { mobileno: mobileno } };
+			updates = { $set: { studentinfo, mobileno, address, city, pincode } };
 		}
 		Teacher.findOneAndUpdate(
 			{ email: req.profile.email },

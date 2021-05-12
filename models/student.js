@@ -48,6 +48,15 @@ var studentSchema = new mongoose.Schema(
 		timetable: {
 			type: Array,
 		},
+		address: {
+			type: String,
+		},
+		city: {
+			type: String,
+		},
+		pincode: {
+			type: String,
+		},
 	},
 	{ timestamps: true }
 );
