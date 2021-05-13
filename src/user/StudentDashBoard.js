@@ -180,8 +180,8 @@ const StudentDashBoard = () => {
 				}
 				<div className="col-sm-10 color h">
 					<div className="App color h ">
-						<div className="container">
-							<div className="classalot">
+						<div className="container " height="1050px">
+							<div className="classalot ">
 								<h1 className="heading">
 									{" "}
 									<img

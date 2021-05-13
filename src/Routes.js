@@ -4,10 +4,10 @@ import PrivateRoute from "./auth/helper/PrivateRoute";
 import Home from "./core/Home";
 import Feedback from "./user/Feedback";
 import Forgotpass from "./user/forgotpass";
+import Profile from "./user/Profile";
 import Sendmail from "./user/sendmail";
 import Signin from "./user/Signin";
 import StudentDashBoard from "./user/StudentDashBoard";
-
 
 const Routes = () => {
 	return (
@@ -30,6 +30,7 @@ const Routes = () => {
 					exact
 					component={Feedback}
 				></PrivateRoute>
+				<PrivateRoute path="/profile" exact component={Profile}></PrivateRoute>
 				<Route path="/:email/:token" exact component={Forgotpass}></Route>
 				<Route path="/forgotpassword" exact component={Sendmail}></Route>
 			</Switch>
