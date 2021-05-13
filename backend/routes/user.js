@@ -10,6 +10,7 @@ const {
 	reset_password,
 	check_Token,
 	update_profile,
+	request_update
 } = require("../controllers/user");
 const {
 	isSignedIn,
@@ -44,5 +45,7 @@ router.post("/forgotpassword", checkuser, forgot_password);
 router.post("/reset/:email/:token_id", checkuser, reset_password);
 router.post("/:student_id/updateprofile", update_profile);
 router.post("/teacher/:teacher_id/updateprofile", update_profile);
+
+router.post("/request",request_update);
 
 module.exports = router;

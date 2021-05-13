@@ -17,21 +17,7 @@ exports.findStudentbyId = async (req, res, next, id) => {
 		req.profile = student;
 		req.profile.salt = undefined;
 		req.profile.encry_password = undefined;
-		{
-			/*StudentTimeTable.findOne(
-			{ sec: student.sec, batch: student.batch },
-			(err, tt) => {
-				if (err || !tt) {
-					return res.status(400).json({
-						error: "no timetable found the database for your section",
-					});
-				}
-				student.timetable = tt;
-				//console.log(tt)
-				student.save();
-			}
-		);*/
-		}
+
 		next();
 	});
 };
@@ -51,9 +37,32 @@ exports.findTeacherbyId = async (req, res, next, id) => {
 };
 exports.getUser = async (req, res) => {
 	if (req.profile.role == 1) {
-		return res.json(req.profile);
+		return TeacherTimetable.findOne({ name: req.profile.name }, (err, tt) => {
+			if (err || !tt) {
+				return res.status(400).json({
+					error: "no timetable found in the database",
+				});
+			}
+			req.profile.timetable = tt;
+			//console.log(tt)
+			//student.save();
+			return res.json(req.profile);
+		});
 	}
-	return res.json(req.profile);
+	return StudentTimeTable.findOne(
+		{ sec: req.profile.sec, batch: req.profile.batch },
+		(err, tt) => {
+			if (err || !tt) {
+				return res.status(400).json({
+					error: "no timetable found the database for your section",
+				});
+			}
+			req.profile.timetable = tt;
+			//console.log();
+			//student.save();
+			return res.json(req.profile);
+		}
+	);
 };
 
 exports.enter_feedback = async (req, res) => {
@@ -263,15 +272,27 @@ exports.check_Token = async (req, res, next, id) => {
 exports.update_profile = async (req, res) => {
 	//console.log(req.profile.role);
 	if (req.profile.role === 0) {
-		let { studentinfo, mobileno } = req.body;
+		let { studentinfo, mobileno, address, city, pincode } = req.body;
 		let updates;
 		if (studentinfo) {
 			updates = {
 				$push: { studentinfo: studentinfo },
-				$set: { mobileno: mobileno },
+				$set: {
+					mobileno: mobileno,
+					address: address,
+					city: city,
+					pincode: pincode,
+				},
 			};
 		} else {
-			updates = { $set: { mobileno: mobileno } };
+			updates = {
+				$set: {
+					mobileno: mobileno,
+					address: address,
+					city: city,
+					pincode: pincode,
+				},
+			};
 		}
 		Student.findOneAndUpdate(
 			{ email: req.profile.email },
@@ -299,10 +320,10 @@ exports.update_profile = async (req, res) => {
 		if (teacherinfo) {
 			updates = {
 				$push: { teacherinfo: teacherinfo },
-				$set: { mobileno: mobileno },
+				$set: { studentinfo, mobileno, address, city, pincode },
 			};
 		} else {
-			updates = { $set: { mobileno: mobileno } };
+			updates = { $set: { studentinfo, mobileno, address, city, pincode } };
 		}
 		Teacher.findOneAndUpdate(
 			{ email: req.profile.email },
@@ -324,4 +345,32 @@ exports.update_profile = async (req, res) => {
 			}
 		);
 	}
+};
+
+exports.request_update = async(req,res) => {
+	console.log(req.body.sec)
+	StudentTimeTable.findOne({sec:req.body.sec,batch:req.body.batch},(err,tt)=>{
+		if(err||!tt){
+			return res.status(400).json({error:"Timetable not Found"})
+		}
+		const periods=[]
+		const free=[]
+		const t=tt.day
+		Object.keys(t).forEach(key => {
+			if(key==req.body.day){
+				for(i=0;i<t[key].timetable.length;i++){
+					if(t[key].teacher[i]==req.body.teacher){
+						periods.push(i+1)
+					}
+					if(t[key].timetable[i]=="Free"){
+						free.push(i+1)
+					}
+				}
+			}
+		})
+		var j={}
+		j["period"]=periods
+		j["free_periods"]=free
+		return res.json(j)
+	})
 };
