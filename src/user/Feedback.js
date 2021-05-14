@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../App.css";
-
-import { Link} from "react-router-dom";
+import "../Profile.css";
+import { Link } from "react-router-dom";
 import { user_feedback, signout, isAuthenticated } from "../auth/helper";
 import icla1 from "../img/ic_launcher1.png";
 import icla from "../img/ic_launcher.png";
@@ -14,7 +14,6 @@ const Feedback = () => {
 	const { user } = JSON.parse(localStorage.getItem("jwt"));
 	const token = isAuthenticated() && isAuthenticated().token;
 
-	
 	const [values, setValues] = useState({
 		feedback: "",
 		error: "",
@@ -39,29 +38,28 @@ const Feedback = () => {
 			</div>
 		);
 	};
-	
+
 	const onSubmit = (event) => {
 		event.preventDefault();
 		setValues({ ...values, error: false });
-		if(!feedback){
-			setValues({error:"Please enter the feedback before submitting"})
+		if (!feedback) {
+			setValues({ error: "Please enter the feedback before submitting" });
+		} else {
+			user_feedback(user.role, user._id, token, feedback)
+				.then((data) => {
+					if (data.error) {
+						setValues({ ...values, error: data.error, success: false });
+					} else {
+						setValues({
+							...values,
+							success: true,
+							feedback: "",
+						});
+					}
+				})
+				.catch();
 		}
-		else{
-				user_feedback(user.role,user._id,token, feedback)
-			 	.then((data) => {
-				if (data.error) {
-					setValues({ ...values, error: data.error ,success:false});
-				} else {
-					setValues({
-						...values,
-						success:true,
-						feedback:""
-					});
-				}
-			})
-			.catch();
-			}
-		}
+	};
 
 	const successMessage = () => {
 		return (
@@ -120,7 +118,7 @@ const Feedback = () => {
 				</nav>
 			</header>
 			<div className="row">
-				<div className="col-sm-1.8">
+				<div className="col-sm-2">
 					<div
 						class="nav flex-column nav-pills"
 						id="v-pills-tab"
@@ -160,6 +158,17 @@ const Feedback = () => {
 						>
 							<i class="fas fa-book-open"></i>&nbsp;Feedback
 						</a>
+						{user.role===1 && (<a
+								className="nav-link text-body"
+								id="v-pills-messages-tab"
+								data-toggle="pill"
+								href="/requests"
+								role="tab"
+								aria-controls="v-pills-messages"
+								aria-selected="false"
+							>
+								<i className="fas fa-book-open"></i>&nbsp;Request
+							</a>)}
 						<a
 							class="nav-link text-body"
 							id="v-pills-settings-tab"
@@ -178,7 +187,16 @@ const Feedback = () => {
 						</a>
 					</div>
 				</div>
-				<div className="col-sm-11" style={rootStyle}>
+				<div className="col-sm-10 color h">
+					<h1 className="head p">
+						<img
+							src="/undraw_feedback_h2ft.svg"
+							class="img-fluid image"
+							alt="feedback img"
+						></img>{" "}
+						&nbsp;FEEDBACK
+					</h1>
+
 					<div className="row">
 						<div className="col-md-6 offset-sm-3 text-left">
 							<form>

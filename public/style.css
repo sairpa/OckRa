@@ -83,8 +83,6 @@ nav {
 	align-items: center;
 	justify-content: space-between;
 }
-
-
 .hero-content .main-txt {
 	font-size: 30px;
 	font-weight: 700;
@@ -312,10 +310,3 @@ footer {
 	width: 550px;
 	margin-top: 40px;
 }
-
-footer{
-	position:absolute;
-	bottom:0px;
-	right:0px;
-	left:0px
-  }

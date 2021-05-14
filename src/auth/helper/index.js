@@ -59,8 +59,15 @@ export const resetpass = (email, token, password) => {
 		.catch((err) => console.log(err));
 };
 
-export const updateprofile = (id, studentinfo, mobileno) => {
-	const info = { studentinfo, mobileno };
+export const updateprofile = (
+	id,
+
+	mobileno,
+	address,
+	city,
+	pincode
+) => {
+	const info = { mobileno, address, city, pincode };
 	return fetch(`${API}/${id}/updateprofile`, {
 		method: "POST",
 		headers: {
@@ -85,7 +92,6 @@ export const getuser = (id, token, role) => {
 			},
 		})
 			.then((response) => {
-				
 				return response.json();
 			})
 			.catch((err) => console.log(err));
@@ -98,7 +104,6 @@ export const getuser = (id, token, role) => {
 			},
 		})
 			.then((response) => {
-				
 				return response.json();
 			})
 			.catch((err) => console.log(err));
@@ -164,40 +169,75 @@ export const sectiontimetable = (timetable) => {
 		})
 		.catch((err) => console.log(err));
 };
-export const user_feedback=(role,userid,token,feedback)=>{
-	if(role===0){
+export const user_feedback = (role, userid, token, feedback) => {
+	if (role === 0) {
 		return fetch(`${API}/student/${userid}/feedback`, {
 			method: "POST",
-			
+
 			headers: {
 				Accept: "application/json",
 				"Content-Type": "application/json",
-				Authorization: `Bearer ${token}`
+				Authorization: `Bearer ${token}`,
 			},
-			body: JSON.stringify({user_feedback:feedback}),
-			
+			body: JSON.stringify({ user_feedback: feedback }),
 		})
-			.then(response => {
+			.then((response) => {
 				return response.json();
 			})
 			.catch((err) => console.log(err));
 	}
-	if(role===1){
+	if (role === 1) {
 		return fetch(`${API}/teacher/${userid}/feedback`, {
 			method: "POST",
-			
+
 			headers: {
 				Accept: "application/json",
 				"Content-Type": "application/json",
-				Authorization: `Bearer ${token}`
+				Authorization: `Bearer ${token}`,
 			},
-			body: JSON.stringify({user_feedback:feedback}),
-			
+			body: JSON.stringify({ user_feedback: feedback }),
 		})
-			.then(response => {
+			.then((response) => {
 				return response.json();
 			})
 			.catch((err) => console.log(err));
 	}
-}
+};
 
+export const request_pull = (sec, batch, name, day) => {
+	console.log(sec, batch, name, day);
+	return fetch(`${API}/request`, {
+		method: "POST",
+		headers: {
+			Accept: "application/json",
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({ sec: sec, batch: batch, name: name, day: day }),
+	})
+		.then((response) => {
+			return response.json();
+		})
+		.catch((err) => console.log(err));
+};
+
+export const update_request = (sec, batch, name, day, from, to) => {
+	return fetch(`${API}/submitrequest`, {
+		method: "POST",
+		headers: {
+			Accept: "application/json",
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({
+			sec: sec,
+			batch: batch,
+			tname: name,
+			day: day,
+			from: from,
+			to: to,
+		}),
+	})
+		.then((response) => {
+			return response.json();
+		})
+		.catch((err) => console.log(err));
+};
