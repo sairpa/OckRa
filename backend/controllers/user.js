@@ -7,6 +7,8 @@ const Feedback = require("../models/feedback");
 const Token = require("../models/token");
 const nodemailer = require("nodemailer");
 const teacher = require("../models/teacher");
+const Request = require("../models/request");
+
 exports.findStudentbyId = async (req, res, next, id) => {
 	Student.findById(id).exec((err, student) => {
 		if (err || !student) {
@@ -347,30 +349,61 @@ exports.update_profile = async (req, res) => {
 	}
 };
 
-exports.request_update = async(req,res) => {
-	console.log(req.body.sec)
-	StudentTimeTable.findOne({sec:req.body.sec,batch:req.body.batch},(err,tt)=>{
-		if(err||!tt){
-			return res.status(400).json({error:"Timetable not Found"})
-		}
-		const periods=[]
-		const free=[]
-		const t=tt.day
-		Object.keys(t).forEach(key => {
-			if(key==req.body.day){
-				for(i=0;i<t[key].timetable.length;i++){
-					if(t[key].teacher[i]==req.body.teacher){
-						periods.push(i+1)
-					}
-					if(t[key].timetable[i]=="Free"){
-						free.push(i+1)
+exports.request_update = async (req, res) => {
+	console.log("summa");
+	console.log(req.body);
+	StudentTimeTable.findOne(
+		{ sec: req.body.sec, batch: req.body.batch },
+		(err, tt) => {
+			if (err || !tt) {
+				return res.status(400).json({ error: "Timetable not Found" });
+			}
+			const periods = [];
+			const free = [];
+			const t = tt.day;
+			Object.keys(t).forEach((key) => {
+				if (key == req.body.day) {
+					for (i = 0; i < t[key].timetable.length; i++) {
+						if (t[key].teacher[i] == req.body.name) {
+							periods.push(i + 1);
+						}
+						if (t[key].timetable[i] == "Free") {
+							free.push(i + 1);
+						}
 					}
 				}
+			});
+			var j = {};
+			j["period"] = periods;
+			j["free_periods"] = free;
+			if (j.period.length === 0) {
+				return res.status(400).json({ error: "No periods available to shift" });
 			}
-		})
-		var j={}
-		j["period"]=periods
-		j["free_periods"]=free
-		return res.json(j)
-	})
+			if (j.free_periods.length === 0) {
+				return res.status(400).json({ error: "No free periods available" });
+			}
+			console.log({ period: periods, free_periods: free });
+			return res.json({ period: periods, free_periods: free });
+		}
+	);
+};
+
+exports.submit_request = async (req, res) => {
+	tname = req.body.tname;
+	day = req.body.day;
+	sec = req.body.sec;
+	batch = req.body.batch;
+	from = req.body.from;
+	to = req.body.to;
+	console.log(req.body.tname);
+	const request = new Request({ tname, day, sec, batch, from, to });
+	request.save((err) => {
+		console.log("summa");
+		if (err) {
+			return res.status(400).json({
+				error: "Cannot make the changes",
+			});
+		}
+		return res.json(req.body);
+	});
 };
