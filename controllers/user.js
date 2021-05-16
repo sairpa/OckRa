@@ -318,15 +318,15 @@ exports.update_profile = async (req, res) => {
 			}
 		);
 	} else {
-		let { teacherinfo, mobileno } = req.body;
+		let { teacherinfo, mobileno, address, city, pincode } = req.body;
 		let updates;
 		if (teacherinfo) {
 			updates = {
 				$push: { teacherinfo: teacherinfo },
-				$set: { studentinfo, mobileno, address, city, pincode },
+				$set: { mobileno, address, city, pincode },
 			};
 		} else {
-			updates = { $set: { studentinfo, mobileno, address, city, pincode } };
+			updates = { $set: { mobileno, address, city, pincode } };
 		}
 		Teacher.findOneAndUpdate(
 			{ email: req.profile.email },
