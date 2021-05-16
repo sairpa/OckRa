@@ -158,6 +158,17 @@ const Feedback = () => {
 						>
 							<i class="fas fa-book-open"></i>&nbsp;Feedback
 						</a>
+						{user.role===1 && (<a
+								className="nav-link text-body"
+								id="v-pills-messages-tab"
+								data-toggle="pill"
+								href="/requests"
+								role="tab"
+								aria-controls="v-pills-messages"
+								aria-selected="false"
+							>
+								<i className="fas fa-book-open"></i>&nbsp;Request
+							</a>)}
 						<a
 							class="nav-link text-body"
 							id="v-pills-settings-tab"

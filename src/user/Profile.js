@@ -67,7 +67,7 @@ const Profile = () => {
 		if (!add || !pin || !cit || !phone) {
 			setValues({ error: "Please fill all the entries" });
 		} else {
-			updateprofile(user._id, phone, add, cit, pin)
+			updateprofile(user.role, user._id, phone, add, cit, pin)
 				.then((data) => {
 					if (data.error) {
 						setValues({ ...values, error: data.error, success: false });
@@ -159,6 +159,19 @@ const Profile = () => {
 							>
 								<i className="fas fa-book-open"></i>&nbsp;Feedback
 							</a>
+							{user.role === 1 && (
+								<a
+									className="nav-link text-body"
+									id="v-pills-messages-tab"
+									data-toggle="pill"
+									href="/requests"
+									role="tab"
+									aria-controls="v-pills-messages"
+									aria-selected="false"
+								>
+									<i className="fas fa-book-open"></i>&nbsp;Request
+								</a>
+							)}
 							<a
 								className="nav-link text-body"
 								id="v-pills-settings-tab"

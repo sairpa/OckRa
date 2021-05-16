@@ -59,16 +59,16 @@ export const resetpass = (email, token, password) => {
 		.catch((err) => console.log(err));
 };
 
-export const updateprofile = (
-	id,
-
-	mobileno,
-	address,
-	city,
-	pincode
-) => {
+export const updateprofile = (role, id, mobileno, address, city, pincode) => {
 	const info = { mobileno, address, city, pincode };
-	return fetch(`${API}/${id}/updateprofile`, {
+	var k;
+	if (role === 1) {
+		k = "teacher/" + id;
+		console.log(`${API}/${k}/updateprofile`);
+	} else {
+		k = id;
+	}
+	return fetch(`${API}/${k}/updateprofile`, {
 		method: "POST",
 		headers: {
 			Accept: "application/json",
@@ -202,4 +202,42 @@ export const user_feedback = (role, userid, token, feedback) => {
 			})
 			.catch((err) => console.log(err));
 	}
+};
+
+export const request_pull = (sec, batch, name, day) => {
+	console.log(sec, batch, name, day);
+	return fetch(`${API}/request`, {
+		method: "POST",
+		headers: {
+			Accept: "application/json",
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({ sec: sec, batch: batch, name: name, day: day }),
+	})
+		.then((response) => {
+			return response.json();
+		})
+		.catch((err) => console.log(err));
+};
+
+export const update_request = (sec, batch, name, day, from, to) => {
+	return fetch(`${API}/submitrequest`, {
+		method: "POST",
+		headers: {
+			Accept: "application/json",
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({
+			sec: sec,
+			batch: batch,
+			tname: name,
+			day: day,
+			from: from,
+			to: to,
+		}),
+	})
+		.then((response) => {
+			return response.json();
+		})
+		.catch((err) => console.log(err));
 };

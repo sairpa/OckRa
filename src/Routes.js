@@ -8,6 +8,9 @@ import Profile from "./user/Profile";
 import Sendmail from "./user/sendmail";
 import Signin from "./user/Signin";
 import StudentDashBoard from "./user/StudentDashBoard";
+import Request from "./user/Request";
+
+
 
 const Routes = () => {
 	return (
@@ -29,6 +32,11 @@ const Routes = () => {
 					path="/feedback"
 					exact
 					component={Feedback}
+				></PrivateRoute>
+				<PrivateRoute
+					path="/requests"
+					exact
+					component={Request}
 				></PrivateRoute>
 				<PrivateRoute path="/profile" exact component={Profile}></PrivateRoute>
 				<Route path="/:email/:token" exact component={Forgotpass}></Route>

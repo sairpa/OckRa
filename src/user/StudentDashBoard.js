@@ -65,6 +65,7 @@ const StudentDashBoard = () => {
 		let time = timetable["timetable"];
 		let room = timetable["roomno"];
 		let teacher = timetable["teacher"];
+		let section = timetable["section"];
 		time.map((d, index) => {
 			array.push(
 				<Card.Group>
@@ -73,7 +74,9 @@ const StudentDashBoard = () => {
 							<Card.Header>
 								{index + 1}. {d}
 							</Card.Header>
-							<Card.Meta>{teacher[index]}</Card.Meta>
+							{user.role === 0 && <Card.Meta>{teacher[index]}</Card.Meta>}
+
+							{user.role === 1 && <Card.Meta>{section[index]}</Card.Meta>}
 							<Card.Description>{room[index]}</Card.Description>
 						</Card.Content>
 					</Card>
@@ -159,6 +162,19 @@ const StudentDashBoard = () => {
 							>
 								<i className="fas fa-book-open"></i>&nbsp;Feedback
 							</a>
+							{user.role === 1 && (
+								<a
+									className="nav-link text-body"
+									id="v-pills-messages-tab"
+									data-toggle="pill"
+									href="/requests"
+									role="tab"
+									aria-controls="v-pills-messages"
+									aria-selected="false"
+								>
+									<i className="fas fa-book-open"></i>&nbsp;Request
+								</a>
+							)}
 							<a
 								className="nav-link text-body"
 								id="v-pills-settings-tab"
