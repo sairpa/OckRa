@@ -59,16 +59,16 @@ export const resetpass = (email, token, password) => {
 		.catch((err) => console.log(err));
 };
 
-export const updateprofile = (
-	id,
-
-	mobileno,
-	address,
-	city,
-	pincode
-) => {
+export const updateprofile = (role, id, mobileno, address, city, pincode) => {
 	const info = { mobileno, address, city, pincode };
-	return fetch(`${API}/${id}/updateprofile`, {
+	var k;
+	if (role === 1) {
+		k = "teacher/" + id;
+		console.log(`${API}/${k}/updateprofile`);
+	} else {
+		k = id;
+	}
+	return fetch(`${API}/${k}/updateprofile`, {
 		method: "POST",
 		headers: {
 			Accept: "application/json",
