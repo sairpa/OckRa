@@ -444,3 +444,38 @@ exports.student_notification = async (req, res) => {
 		}
 	);
 };
+
+exports.teacher_notification = async (req, res) => {
+	const { name } = req.body;
+	const a = [];
+	Request.find(
+		{
+			tname: req.body.name,
+			day: req.body.day,
+			approved: "True",
+		},
+		(err, requests) => {
+			if (err) {
+				return res.status(400).json({ error: "400 error" });
+			}
+			if (requests.length === 0) {
+				return res.status(200).json({ msg: "No notifications" });
+			}
+			//console.log(requests);
+			const n = requests.length;
+			const p = [];
+			var i;
+			for (i = 0; i < n; i++) {
+				p.push([
+					requests[i].from,
+					requests[i].to,
+					requests[i].room,
+					requests[i].sec,
+				]);
+			}
+			console.log(p, requests);
+
+			return res.status(200).json({ msg: p });
+		}
+	);
+};

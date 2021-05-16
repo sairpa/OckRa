@@ -13,6 +13,7 @@ const {
 	request_update,
 	submit_request,
 	student_notification,
+	teacher_notification,
 } = require("../controllers/user");
 const {
 	isSignedIn,
@@ -51,4 +52,5 @@ router.post("/teacher/:teacher_id/updateprofile", update_profile);
 router.post("/request", request_update);
 router.post("/submitrequest", submit_request);
 router.post("/student/notification", student_notification);
+router.post("/teacher/notification", teacher_notification);
 module.exports = router;
