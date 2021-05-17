@@ -438,7 +438,7 @@ exports.student_notification = async (req, res) => {
 					requests[i].tname,
 				]);
 			}
-			console.log(p, requests);
+			//console.log(p);
 
 			return res.status(200).json({ msg: p });
 		}
@@ -450,7 +450,7 @@ exports.teacher_notification = async (req, res) => {
 	const a = [];
 	Request.find(
 		{
-			tname: req.body.name,
+			tname: req.body.tname,
 			day: req.body.day,
 			approved: "True",
 		},
