@@ -3,13 +3,15 @@ import "../Card.css";
 import { Card } from "semantic-ui-react";
 import icla1 from "../img/ic_launcher1.png";
 import icla from "../img/ic_launcher.png";
-import { getuser, signout } from "../auth/helper";
+import { getuser, signout, getnotification } from "../auth/helper";
 import x1 from "../img/undraw_annotation_7das.svg";
 
 // var rootStyle = {
 // 	height: "100vh",
 // 	backgroundColor: "#dae8df",
 // };
+var a = 1;
+var b = 0;
 const StudentDashBoard = () => {
 	var date = new Date();
 	var weekday = new Array(7);
@@ -37,7 +39,11 @@ const StudentDashBoard = () => {
 		batch: "",
 		timetable: "",
 	});
+	const [notifi, setNotifi] = useState({
+		notifications: "",
+	});
 	const { sec, timetable, usrname } = values;
+	const { notifications } = notifi;
 
 	const { user, token } = JSON.parse(localStorage.getItem("jwt"));
 
@@ -58,7 +64,37 @@ const StudentDashBoard = () => {
 				}
 			})
 			.catch();
+		//getNoti();
+		b = 1;
 	};
+	const getNoti = () => {
+		//console.log("ian");
+		getnotification(user.role, values.sec, values.batch, values.name, n)
+			.then((data) => {
+				if (!data.error) {
+					setNotifi({ notifications: data.msg });
+				}
+			})
+			.catch();
+	};
+	function Notificationrender() {
+		let array = [];
+		let n = notifications.length;
+		let cop = timetable["timetable"];
+		console.log(n);
+		var i, from, to, sub;
+		for (i = 0; i < n; i++) {
+			from = notifications[i][0];
+			to = notifications[i][1];
+			sub = cop[from - 1];
+			array.push(
+				<ol key={i}>
+					The subject {sub} shifted to period {to} to room {notifications[i][2]}{" "}
+				</ol>
+			);
+		}
+		return array;
+	}
 	function Listrender() {
 		// Build an array of items
 		let array = [];
@@ -83,11 +119,50 @@ const StudentDashBoard = () => {
 				</Card.Group>
 			);
 		});
+		if (notifications) {
+			let n = notifications.length;
+			let cop = timetable["timetable"];
+			var i, from, to, sub;
+			for (i = 0; i < n; i++) {
+				from = notifications[i][0];
+				to = notifications[i][1];
+				sub = cop[from - 1];
+				array[from - 1] = (
+					<Card.Group>
+						<Card color="teal">
+							<Card.Content>
+								<Card.Header>{from}.Free</Card.Header>
+								<Card.Meta>Free</Card.Meta>
+								<Card.Description>Free</Card.Description>
+							</Card.Content>
+						</Card>
+					</Card.Group>
+				);
+				array[to - 1] = (
+					<Card.Group>
+						<Card color="teal">
+							<Card.Content>
+								<Card.Header>
+									{to}.{sub}
+								</Card.Header>
+								{user.role === 0 && (
+									<Card.Meta>{notifications[i][3]}</Card.Meta>
+								)}
+
+								{user.role === 1 && <Card.Meta>nd</Card.Meta>}
+								<Card.Description>{notifications[i][2]}</Card.Description>
+							</Card.Content>
+						</Card>
+					</Card.Group>
+				);
+			}
+		}
 
 		// Render it
 		return array;
 	}
 	getUser();
+	a === 1 && b === 1 && getNoti();
 	return (
 		<div>
 			<header>
@@ -215,8 +290,8 @@ const StudentDashBoard = () => {
 										<div class="card">
 											<div class="card-body color">
 												<h5 class="card-title">
-													Hello {usrname}
-													<br /> Your Notifications
+													Hello {usrname}, Your Notifications: <br /> <br />
+													{notifications && timetable && Notificationrender()}
 												</h5>
 												<p class="card-text"></p>
 											</div>

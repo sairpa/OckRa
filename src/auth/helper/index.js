@@ -82,6 +82,30 @@ export const updateprofile = (role, id, mobileno, address, city, pincode) => {
 		.catch((err) => console.log(err));
 };
 
+export const getnotification = (role, sec, batch, tname, day) => {
+	var info, k;
+	//console.log(role, sec, batch, tname, day);
+	if (role === 0) {
+		info = { sec, batch, day };
+		k = "student";
+	} else {
+		info = { tname, day };
+		k = "teacher";
+	}
+	return fetch(`${API}/${k}/notification`, {
+		method: "POST",
+		headers: {
+			Accept: "application/json",
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(info),
+	})
+		.then((response) => {
+			return response.json();
+		})
+		.catch((err) => console.log(err));
+};
+
 export const getuser = (id, token, role) => {
 	if (role === 0) {
 		return fetch(`${API}/student/${id}`, {

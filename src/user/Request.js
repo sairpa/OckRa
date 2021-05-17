@@ -323,7 +323,7 @@ const Request = () => {
 									Submit Request
 								</button>
 							</div>
-							<p className="text-white text-center">{JSON.stringify(values)}</p>
+							{/*<p className="text-white text-center">{JSON.stringify(values)}</p>*/}
 						</div>
 					</div>
 				}
