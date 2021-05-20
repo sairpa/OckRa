@@ -41,9 +41,10 @@ const StudentDashBoard = () => {
 	});
 	const [notifi, setNotifi] = useState({
 		notifications: "",
+		nonoti: "",
 	});
 	const { sec, timetable, usrname } = values;
-	const { notifications } = notifi;
+	const { notifications, nonoti } = notifi;
 
 	const { user, token } = JSON.parse(localStorage.getItem("jwt"));
 
@@ -72,17 +73,24 @@ const StudentDashBoard = () => {
 		getnotification(user.role, values.sec, values.batch, values.name, n)
 			.then((data) => {
 				if (!data.error) {
-					setNotifi({ notifications: data.msg });
+					setNotifi({ notifications: data.msg, nonoti: data.msg1 });
 				}
 			})
 			.catch();
 	};
 	function Notificationrender() {
 		let array = [];
+		if (nonoti) {
+			//console.log("kks");
+			array.push(<ol>No notifications</ol>);
+			return array;
+		}
+
 		let n = notifications.length;
 		let cop = timetable["timetable"];
-		console.log(n);
+		console.log(notifications);
 		var i, from, to, sub;
+
 		for (i = 0; i < n; i++) {
 			from = notifications[i][0];
 			to = notifications[i][1];
@@ -291,7 +299,9 @@ const StudentDashBoard = () => {
 											<div class="card-body color">
 												<h5 class="card-title">
 													Hello {usrname}, Your Notifications: <br /> <br />
-													{notifications && timetable && Notificationrender()}
+													{(notifications || nonoti) &&
+														timetable &&
+														Notificationrender()}
 												</h5>
 												<p class="card-text"></p>
 											</div>

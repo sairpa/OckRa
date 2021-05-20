@@ -1,30 +1,33 @@
-@import url('https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap");
 
-*{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  list-style: none;
-  text-decoration: none;
-  font-family: 'Josefin Sans', sans-serif;
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	list-style: none;
+	text-decoration: none;
+	font-family: "Josefin Sans", sans-serif;
 }
 
 .App {
-  display: flex;
-  flex-direction:column;
-  height: 100vh;
+	display: flex;
+	flex-direction: column;
+	flex-direction: row;
+	height: 100vh;
+	width: 100vw;
 }
-.wrapper{
-  display: flex;
-  position: relative;
-  flex-direction: column;
+.wrapper {
+	display: flex;
+	position: relative;
+	flex-direction: column;
+	flex-direction: row;
 }
 
-.wrapper .sidebar h2{
-  color:black;
-  text-transform: uppercase;
-  text-align: center;
-  margin-bottom: 30px;
+.wrapper .sidebar h2 {
+	color: black;
+	text-transform: uppercase;
+	text-align: center;
+	margin-bottom: 30px;
 }
 
 .wrapper .s/* idebar ul li{
@@ -34,187 +37,181 @@
   border-top: 1px solid rgba(255,255,255,0.05);
 }     */
 
-.wrapper .sidebar ul li a{
-  color: black;
-  display: block;
+.wrapper .sidebar ul li a {
+	color: black;
+	display: block;
 }
 
-.wrapper .sidebar ul li a .fas{
-  width: 25px;
+.wrapper .sidebar ul li a .fas {
+	width: 25px;
 }
 
-.wrapper .sidebar ul li:hover{
-  background-color: #44ac67;
-}
-    
-.wrapper .sidebar ul li:hover a{
-  color: #fff;
-}
- 
-.wrapper .sidebar .social_media{
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
+.wrapper .sidebar ul li:hover {
+	background-color: #44ac67;
 }
 
-.wrapper .sidebar .social_media a{
-  display: block;
-  width: 40px;
-  background: #44ac67;
-  height: 40px;
-  line-height: 45px;
-  text-align: center;
-  margin: 0 5px;
-  color: #bdb8d7;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
+.wrapper .sidebar ul li:hover a {
+	color: #fff;
 }
 
-.wrapper .main_content{
-  width: 100%;
-  margin-left: 200px;
+.wrapper .sidebar .social_media {
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	display: flex;
 }
 
-.wrapper header{
-  padding: 20px;
-  background:white;
-  
-  color: black;
-  text-align: center;
-  font-size: 30px ;
-  border-color: black;
-  border-bottom: 1px solid #e0e4e8;
-} 
-
-.wrapper .main_content .info{
-  margin: 20px;
-  color: #717171;
-  line-height: 25px;
-  
+.wrapper .sidebar .social_media a {
+	display: block;
+	width: 40px;
+	background: #44ac67;
+	height: 40px;
+	line-height: 45px;
+	text-align: center;
+	margin: 0 5px;
+	color: #bdb8d7;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
 }
 
-.wrapper .main_content .info div{
-  
-  margin-bottom: 20px;
+.wrapper .main_content {
+	width: 100%;
+	margin-left: 200px;
+}
+
+.wrapper header {
+	padding: 20px;
+	background: white;
+
+	color: black;
+	text-align: center;
+	font-size: 30px;
+	border-color: black;
+	border-bottom: 1px solid #e0e4e8;
+}
+
+.wrapper .main_content .info {
+	margin: 20px;
+	color: #717171;
+	line-height: 25px;
+}
+
+.wrapper .main_content .info div {
+	margin-bottom: 20px;
 }
 
 .cards {
-  display: flex;
+	display: flex;
 }
 
 .cards > div {
-  margin: 24px;
+	margin: 24px;
 }
 
-.notify{
-  width:400px;
-  height: 70vh;
-  padding-top: 30px;
-  text-align: center;
-  border-radius: 25px;
-  color: black;
-  background-color: whitesmoke;
+.notify {
+	width: 400px;
+	height: 70vh;
+	padding-top: 30px;
+	text-align: center;
+	border-radius: 25px;
+	color: black;
+	background-color: whitesmoke;
 }
 
-.classalot{
-  float: left;
-  width: 400px; 
-  height:70vh ;
-  color: black;
-  background-color: whitesmoke;
-  text-align: center;
-  border-radius: 25px;
-  padding-top: 30px;
-
+.classalot {
+	float: left;
+	width: 400px;
+	height: 70vh;
+	color: black;
+	background-color: whitesmoke;
+	text-align: center;
+	border-radius: 25px;
+	padding-top: 30px;
 }
-.info .heading
-{
-  position: relative;
-  margin: 24px 0 0 24px;
+.info .heading {
+	position: relative;
+	margin: 24px 0 0 24px;
 }
 
 .container {
-  max-width: 1200px;
-  margin: auto;
+	max-width: 1200px;
+	margin: auto;
 }
 
 footer {
-  height: 300px;
+	height: 300px;
 }
 .foot-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 }
 .foot1 {
-  display: flex;
-  flex-direction: column;
+	display: flex;
+	flex-direction: column;
 }
 .foot1 a {
-  color: white;
-  font-size: 20px;
-  margin-bottom: 15px;
+	color: white;
+	font-size: 20px;
+	margin-bottom: 15px;
 }
 .foot2 {
-  margin-top: 20px;
-  width: 350px;
+	margin-top: 20px;
+	width: 350px;
 }
 .foot-heading {
-  color: white;
-  font-size: 23px;
-  font-weight: 400;
-  margin-top: 10px;
+	color: white;
+	font-size: 23px;
+	font-weight: 400;
+	margin-top: 10px;
 }
 .line {
-  height: 1px;
-  background: white;
+	height: 1px;
+	background: white;
 }
 .split-content {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 15px;
-  color: white;
-  font-weight: 300;
+	display: flex;
+	justify-content: space-between;
+	margin-top: 15px;
+	color: white;
+	font-weight: 300;
 }
 .icons img {
-  margin: 20px 20px 0 0;
-  width: 25px;
+	margin: 20px 20px 0 0;
+	width: 25px;
 }
 
-.footer{
-  margin-top: 100px;
+.footer {
+	margin-top: 100px;
 }
 
 .right {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
+	display: flex;
+	flex: 1;
+	flex-direction: column;
 }
 
 main {
-  min-height: calc(100vh - 72px - 100px);
-  background-color: #dae8df;
-  display: flex !important;
-  flex-grow:1;
+	min-height: calc(100vh - 72px - 100px);
+	background-color: #dae8df;
+	display: flex !important;
+	flex-grow: 1;
 }
 
-
-
-.btn-s{
-  background-color: #44ac67;
-  width: 200px;
-  border-radius: 25px;
+.btn-s {
+	background-color: #44ac67;
+	width: 200px;
+	border-radius: 25px;
 }
 
-.align{
-  text-align: center;
-  color: black;
-  margin-left: 600px;
-
+.align {
+	text-align: center;
+	color: black;
+	margin-left: 600px;
 }
 
-.nav-pills .nav-link.active, .nav-pills .show>.nav-link{
-  background-color: #44ac67;
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+	background-color: #44ac67;
 }
