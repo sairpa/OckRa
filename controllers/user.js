@@ -424,7 +424,7 @@ exports.student_notification = async (req, res) => {
 				return res.status(400).json({ error: "400 error" });
 			}
 			if (requests.length === 0) {
-				return res.status(200).json({ msg: "No notifications" });
+				return res.status(200).json({ msg1: "No notifications" });
 			}
 			//console.log(requests);
 			const n = requests.length;
@@ -459,7 +459,7 @@ exports.teacher_notification = async (req, res) => {
 				return res.status(400).json({ error: "400 error" });
 			}
 			if (requests.length === 0) {
-				return res.status(200).json({ msg: "No notifications" });
+				return res.status(200).json({ msg1: "No notifications" });
 			}
 			//console.log(requests);
 			const n = requests.length;

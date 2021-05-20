@@ -26,7 +26,6 @@ var requestSchema = new mongoose.Schema({
 	},
 	approved: {
 		type: String,
-		default: "False",
 	},
 	room: {
 		type: String,
