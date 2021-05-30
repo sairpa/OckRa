@@ -479,3 +479,86 @@ exports.teacher_notification = async (req, res) => {
 		}
 	);
 };
+
+exports.send_notification = async (req, res) => {
+	//console.log(req.teacher_email, req.studentslist);
+
+	var transporter = nodemailer.createTransport({
+		host: "smtp.gmail.com",
+		port: 587,
+		secure: false,
+		requireTLS: true,
+		auth: { user: "ockra13@gmail.com", pass: "swprojectpass" },
+	});
+	var mailOptions = {
+		from: "ockra13@gmail.com",
+		to: req.studentslist,
+		subject: "Timetable Notification",
+		text:
+			"Hello " +
+			",\n\n" +
+			req.body.day +
+			" period " +
+			req.body.from +
+			" shifted to period " +
+			req.body.to +
+			"\n\nThank You!\n",
+	};
+	transporter.sendMail(mailOptions, (err) => {
+		if (err) {
+			console.log(err);
+			return res.status(500).send({
+				error:
+					"Technical Issue!, Please click on resend for verify your Email.",
+			});
+		}
+		return res.json("successfull");
+	});
+
+	return res.json("succesfull");
+};
+
+exports.get_students = async (req, res, next) => {
+	var studentmail = [];
+	Student.find(
+		{
+			sec: req.body.sec,
+		},
+		(err, students) => {
+			if (err) {
+				return res.status(400).json({ error: "400 error" });
+			}
+			if (students.length === 0) {
+				return res.status(400).json({ error: "No section found" });
+			}
+			n = students.length;
+
+			var i = 0;
+			for (i = 0; i < n; i++) {
+				studentmail.push(students[i].email);
+			}
+			req.studentslist = studentmail;
+			//console.log("a", studentmail);
+
+			next();
+		}
+	);
+};
+
+exports.get_teacher_email = async (req, res, next) => {
+	var teacheremail;
+	Teacher.findOne(
+		{
+			name: req.body.tname,
+		},
+		(err, teacher) => {
+			if (err || !teacher) {
+				return res.status(400).json({ error: "400 error" });
+			}
+			teacheremail = teacher.email;
+
+			req.teacher_email = teacheremail;
+			next();
+		}
+	);
+};

@@ -14,6 +14,9 @@ const {
 	submit_request,
 	student_notification,
 	teacher_notification,
+	get_students,
+	get_teacher_email,
+	send_notification,
 } = require("../controllers/user");
 const {
 	isSignedIn,
@@ -53,4 +56,10 @@ router.post("/request", request_update);
 router.post("/submitrequest", submit_request);
 router.post("/student/notification", student_notification);
 router.post("/teacher/notification", teacher_notification);
+router.post(
+	"/student/sendnotification",
+	get_students,
+	get_teacher_email,
+	send_notification
+);
 module.exports = router;
