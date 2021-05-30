@@ -16,6 +16,7 @@ const {
 	teacher_notification,
 	get_students,
 	get_teacher_email,
+	send_teacher_mail,
 	send_notification,
 } = require("../controllers/user");
 const {
@@ -60,6 +61,7 @@ router.post(
 	"/student/sendnotification",
 	get_students,
 	get_teacher_email,
+	send_teacher_mail,
 	send_notification
 );
 module.exports = router;

@@ -479,7 +479,40 @@ exports.teacher_notification = async (req, res) => {
 		}
 	);
 };
-
+exports.send_teacher_mail = async (req, res, next) => {
+	var transporter = nodemailer.createTransport({
+		host: "smtp.gmail.com",
+		port: 587,
+		secure: false,
+		requireTLS: true,
+		auth: { user: "ockra13@gmail.com", pass: "swprojectpass" },
+	});
+	var mailOptions = {
+		from: "ockra13@gmail.com",
+		to: req.teacher_email,
+		subject: "Timetable Notification",
+		text:
+			"Hello " +
+			",\n\n" +
+			"As per your request, on " +
+			req.body.day +
+			" period " +
+			req.body.from +
+			" shifted to period " +
+			req.body.to +
+			"\n\nThank You!\n",
+	};
+	transporter.sendMail(mailOptions, (err) => {
+		if (err) {
+			console.log(err);
+			return res.status(500).send({
+				error:
+					"Technical Issue!, Please click on resend for verify your Email.",
+			});
+		}
+		next();
+	});
+};
 exports.send_notification = async (req, res) => {
 	//console.log(req.teacher_email, req.studentslist);
 
@@ -553,6 +586,7 @@ exports.get_teacher_email = async (req, res, next) => {
 		},
 		(err, teacher) => {
 			if (err || !teacher) {
+				console.log("teacher error");
 				return res.status(400).json({ error: "400 error" });
 			}
 			teacheremail = teacher.email;
