@@ -42,9 +42,10 @@ const StudentDashBoard = () => {
 	const [notifi, setNotifi] = useState({
 		notifications: "",
 		nonoti: "",
+		rejected: "",
 	});
 	const { sec, timetable, usrname } = values;
-	const { notifications, nonoti } = notifi;
+	const { notifications, nonoti, rejected } = notifi;
 
 	const { user, token } = JSON.parse(localStorage.getItem("jwt"));
 
@@ -73,13 +74,42 @@ const StudentDashBoard = () => {
 		getnotification(user.role, values.sec, values.batch, values.name, n)
 			.then((data) => {
 				if (!data.error) {
-					setNotifi({ notifications: data.msg, nonoti: data.msg1 });
+					setNotifi({
+						notifications: data.msg,
+						nonoti: data.msg1,
+						rejected: data.rejected,
+					});
 				}
 			})
 			.catch();
 	};
 	function Notificationrender() {
 		let array = [];
+		{
+			let count = 60;
+			if (user.role === 1 && rejected) {
+				array.push(<h3>Rejected requests:</h3>);
+				//console.log(rejected === "empty");
+				if (rejected === "empty") {
+					array.push(<ol key={count}>No rejected requests</ol>);
+				} else {
+					var j, fro, t, day;
+					let len = rejected.length;
+					for (j = 0; j < len; j++) {
+						fro = rejected[j][0];
+						t = rejected[j][1];
+						day = rejected[j][3];
+						array.push(
+							<ol key={count}>
+								Your request to shift period {fro} to period {t} to roomno{" "}
+								{rejected[j][2]} on {day} is rejected
+							</ol>
+						);
+						count = count + 1;
+					}
+				}
+			}
+		}
 		if (nonoti) {
 			//console.log("kks");
 			array.push(<ol>No notifications</ol>);
@@ -88,9 +118,9 @@ const StudentDashBoard = () => {
 
 		let n = notifications.length;
 		let cop = timetable["timetable"];
-		console.log(notifications);
+		//console.log(notifications);
 		var i, from, to, sub;
-
+		array.push(<h3>Today's Notifiction:</h3>);
 		for (i = 0; i < n; i++) {
 			from = notifications[i][0];
 			to = notifications[i][1];
@@ -157,7 +187,9 @@ const StudentDashBoard = () => {
 									<Card.Meta>{notifications[i][3]}</Card.Meta>
 								)}
 
-								{user.role === 1 && <Card.Meta>nd</Card.Meta>}
+								{user.role === 1 && (
+									<Card.Meta>{notifications[i][3]}</Card.Meta>
+								)}
 								<Card.Description>{notifications[i][2]}</Card.Description>
 							</Card.Content>
 						</Card>
@@ -299,7 +331,8 @@ const StudentDashBoard = () => {
 											<div class="card-body color">
 												<h5 class="card-title">
 													Hello {usrname}, Your Notifications: <br /> <br />
-													{(notifications || nonoti) &&
+													{((notifications && rejected) ||
+														(nonoti && rejected)) &&
 														timetable &&
 														Notificationrender()}
 												</h5>
