@@ -424,7 +424,9 @@ exports.student_notification = async (req, res) => {
 				return res.status(400).json({ error: "400 error" });
 			}
 			if (requests.length === 0) {
-				return res.status(200).json({ msg1: "No notifications" });
+				return res
+					.status(200)
+					.json({ msg1: "No notifications", rejected: "NA" });
 			}
 			//console.log(requests);
 			const n = requests.length;
@@ -440,7 +442,43 @@ exports.student_notification = async (req, res) => {
 			}
 			//console.log(p);
 
-			return res.status(200).json({ msg: p });
+			return res.status(200).json({ msg: p, rejected: "NA" });
+		}
+	);
+};
+exports.teacher_rejected_requests = async (req, res, next) => {
+	var arr = [];
+	Request.find(
+		{
+			tname: req.body.tname,
+
+			approved: "False",
+		},
+		(err, requests) => {
+			//console.log("inside", requests);
+			if (err) {
+				return res.status(400).json({ error: "400 error" });
+			}
+			if (requests.length === 0) {
+				req.rejected = "empty";
+				next();
+			} else {
+				var i = 0;
+				var n = requests.length;
+				for (i = 0; i < n; i++) {
+					arr.push([
+						requests[i].from,
+						requests[i].to,
+						requests[i].room,
+						requests[i].day,
+						requests[i].sec,
+					]);
+				}
+				req.rejected = arr;
+				//console.log(req.rejected, arr, n);
+
+				next();
+			}
 		}
 	);
 };
@@ -459,7 +497,9 @@ exports.teacher_notification = async (req, res) => {
 				return res.status(400).json({ error: "400 error" });
 			}
 			if (requests.length === 0) {
-				return res.status(200).json({ msg1: "No notifications" });
+				return res
+					.status(200)
+					.json({ msg1: "No notifications", rejected: req.rejected });
 			}
 			//console.log(requests);
 			const n = requests.length;
@@ -473,9 +513,9 @@ exports.teacher_notification = async (req, res) => {
 					requests[i].sec,
 				]);
 			}
-			console.log(p, requests);
+			//console.log(p);
 
-			return res.status(200).json({ msg: p });
+			return res.status(200).json({ msg: p, rejected: req.rejected });
 		}
 	);
 };

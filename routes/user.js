@@ -13,6 +13,7 @@ const {
 	request_update,
 	submit_request,
 	student_notification,
+	teacher_rejected_requests,
 	teacher_notification,
 	get_students,
 	get_teacher_email,
@@ -56,7 +57,11 @@ router.post("/teacher/:teacher_id/updateprofile", update_profile);
 router.post("/request", request_update);
 router.post("/submitrequest", submit_request);
 router.post("/student/notification", student_notification);
-router.post("/teacher/notification", teacher_notification);
+router.post(
+	"/teacher/notification",
+	teacher_rejected_requests,
+	teacher_notification
+);
 router.post(
 	"/student/sendnotification",
 	get_students,
