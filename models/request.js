@@ -31,5 +31,9 @@ var requestSchema = new mongoose.Schema({
 		type: String,
 		default: "",
 	},
+	permanent: {
+		type: String,
+		default: "False",
+	},
 });
 module.exports = mongoose.model("Request", requestSchema);

@@ -399,8 +399,9 @@ exports.submit_request = async (req, res) => {
 	batch = req.body.batch;
 	from = req.body.from;
 	to = req.body.to;
+	permanent = req.body.permanent;
 	//console.log(req.body.tname);
-	const request = new Request({ tname, day, sec, batch, from, to });
+	const request = new Request({ tname, day, sec, batch, from, to, permanent });
 	request.save((err) => {
 		//console.log("summa");
 		if (err) {
