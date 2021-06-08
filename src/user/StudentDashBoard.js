@@ -82,9 +82,32 @@ const StudentDashBoard = () => {
 				}
 			})
 			.catch();
+		//a = 0;
 	};
 	function Notificationrender() {
 		let array = [];
+
+		if (nonoti) {
+			//console.log("kks");
+			array.push(<ol>No notifications</ol>);
+		} else {
+			let n = notifications.length;
+			let cop = timetable["timetable"];
+			//console.log(notifications);
+			var i, from, to, sub;
+			array.push(<h3>Today's Notification:</h3>);
+			for (i = 0; i < n; i++) {
+				from = notifications[i][0];
+				to = notifications[i][1];
+				sub = cop[from - 1];
+				array.push(
+					<ol key={i}>
+						The subject {sub} shifted to period {to} to room{" "}
+						{notifications[i][2]}{" "}
+					</ol>
+				);
+			}
+		}
 		{
 			let count = 60;
 			if (user.role === 1 && rejected) {
@@ -109,27 +132,6 @@ const StudentDashBoard = () => {
 					}
 				}
 			}
-		}
-		if (nonoti) {
-			//console.log("kks");
-			array.push(<ol>No notifications</ol>);
-			return array;
-		}
-
-		let n = notifications.length;
-		let cop = timetable["timetable"];
-		//console.log(notifications);
-		var i, from, to, sub;
-		array.push(<h3>Today's Notifiction:</h3>);
-		for (i = 0; i < n; i++) {
-			from = notifications[i][0];
-			to = notifications[i][1];
-			sub = cop[from - 1];
-			array.push(
-				<ol key={i}>
-					The subject {sub} shifted to period {to} to room {notifications[i][2]}{" "}
-				</ol>
-			);
 		}
 		return array;
 	}
@@ -201,7 +203,7 @@ const StudentDashBoard = () => {
 		// Render it
 		return array;
 	}
-	getUser();
+	b === 0 && getUser();
 	a === 1 && b === 1 && getNoti();
 	return (
 		<div>
@@ -317,7 +319,7 @@ const StudentDashBoard = () => {
 									{" "}
 									<img
 										src={x1}
-										class="img-fluid image"
+										className="img-fluid image"
 										alt="profile img"
 										width="250"
 										height="250"
@@ -325,24 +327,24 @@ const StudentDashBoard = () => {
 									&nbsp; DASHBOARD{" "}
 								</h1>
 
-								<div class="row m-3 ">
-									<div class="col-sm-6">
-										<div class="card">
-											<div class="card-body color">
-												<h5 class="card-title">
+								<div className="row m-3 ">
+									<div className="col-sm-6">
+										<div className="card">
+											<div className="card-body color">
+												<h5 className="card-title">
 													Hello {usrname}, Your Notifications: <br /> <br />
 													{((notifications && rejected) ||
 														(nonoti && rejected)) &&
 														timetable &&
 														Notificationrender()}
 												</h5>
-												<p class="card-text"></p>
+												<p className="card-text"></p>
 											</div>
 										</div>
 									</div>
-									<div class="col-sm-6">
-										<div class="card">
-											<div class="card-body color">
+									<div className="col-sm-6">
+										<div className="card">
+											<div className="card-body color">
 												{user.role === 0 && (
 													<h5 className="card-title">
 														Classroom Allotted for {sec} ({n})
