@@ -244,7 +244,7 @@ export const request_pull = (sec, batch, name, day) => {
 		.catch((err) => console.log(err));
 };
 
-export const update_request = (sec, batch, name, day, from, to) => {
+export const update_request = (sec, batch, name, day, from, to, permanent) => {
 	return fetch(`${API}/submitrequest`, {
 		method: "POST",
 		headers: {
@@ -258,6 +258,7 @@ export const update_request = (sec, batch, name, day, from, to) => {
 			day: day,
 			from: from,
 			to: to,
+			permanent: permanent,
 		}),
 	})
 		.then((response) => {

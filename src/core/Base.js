@@ -21,7 +21,7 @@ const Base = ({
 					</div>
 					<div className="split-content">
 						<h4>Email</h4>
-						<h4>www.amrita.edu</h4>
+						<h4>ockra13@gmail.com</h4>
 					</div>
 					{/*<div className="icons">
 						<a href="#">

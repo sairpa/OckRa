@@ -19,8 +19,10 @@ const Request = () => {
 		success: false,
 		pull: "",
 		flag: "",
+		permanent: "",
 	});
-	const { day, sec, batch, to, from, error, success, pull, flag } = values;
+	const { day, sec, batch, to, from, error, success, pull, flag, permanent } =
+		values;
 	const handleChange = (name) => (event) => {
 		setValues({ ...values, error: false, [name]: event.target.value });
 	};
@@ -54,13 +56,13 @@ const Request = () => {
 	const onSubmit1 = (event) => {
 		event.preventDefault();
 		setValues({ ...values, error: false });
-		if (!day || !sec || !batch || !from || !to) {
+		if (!day || !sec || !batch || !from || !to || !permanent) {
 			setValues({
 				...values,
 				error: "Please check if u have filled all the columns",
 			});
 		} else {
-			update_request(sec, batch, user.name, day, from, to)
+			update_request(sec, batch, user.name, day, from, to, permanent)
 				.then((data) => {
 					if (data.error) {
 						setValues({ ...values, error: data.error, success: false });
@@ -247,7 +249,7 @@ const Request = () => {
 								&nbsp;Request{" "}
 							</h1>
 							{successMessage()},{errorMessage()}
-							<label htmlFor="inputAddress">DAY</label>
+							DAY
 							<div class="input-group mb-3">
 								<select
 									class="custom-select"
@@ -262,7 +264,7 @@ const Request = () => {
 									<option value="friday">friday</option>
 								</select>
 							</div>
-							<label htmlFor="inputAddress">Section</label>
+							Section
 							<div class="input-group mb-3">
 								<select
 									class="custom-select"
@@ -277,7 +279,7 @@ const Request = () => {
 									<option value="E">E</option>
 								</select>
 							</div>
-							<label htmlFor="inputAddress">Batch</label>
+							Batch
 							<div class="input-group mb-3">
 								<select
 									class="custom-select"
@@ -296,7 +298,7 @@ const Request = () => {
 									Pull Periods
 								</button>
 							</div>
-							<label htmlFor="inputAddress">From</label>
+							From
 							<div class="input-group mb-3">
 								<select
 									class="custom-select"
@@ -307,7 +309,7 @@ const Request = () => {
 									{day && batch && sec && flag && periods()}
 								</select>
 							</div>
-							<label htmlFor="inputAddress">To</label>
+							To
 							<div class="input-group mb-3">
 								<select
 									class="custom-select"
@@ -316,6 +318,18 @@ const Request = () => {
 								>
 									<option selected>Choose...</option>
 									{day && batch && sec && flag && free_periods()}
+								</select>
+							</div>
+							Permanent
+							<div class="input-group mb-3">
+								<select
+									class="custom-select"
+									id="inputGroupSelect02"
+									onChange={handleChange("permanent")}
+								>
+									<option selected>Choose...</option>
+									<option value="True">True</option>
+									<option value="False">False</option>
 								</select>
 							</div>
 							<div>
