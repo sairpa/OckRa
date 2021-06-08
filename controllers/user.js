@@ -196,7 +196,10 @@ exports.forgot_password = async (req, res) => {
 								"Technical Issue!, Please click on resend for verify your Email.",
 						});
 					}
-					return res.json("A mail is sent to your account");
+					return res.json({
+						msg: "A mail is sent to your account",
+						token: token_obj.token,
+					});
 				});
 			});
 		}
@@ -216,7 +219,7 @@ exports.reset_password = async (req, res) => {
 					a = 0;
 				}
 			});
-			console.log(a);
+			//console.log(a);
 			if (a !== 1) {
 				return res.status(400).json({
 					error: "Error, Please try again ",
@@ -351,8 +354,8 @@ exports.update_profile = async (req, res) => {
 };
 
 exports.request_update = async (req, res) => {
-	console.log("summa");
-	console.log(req.body);
+	//console.log("summa");
+	//console.log(req.body);
 	StudentTimeTable.findOne(
 		{ sec: req.body.sec, batch: req.body.batch },
 		(err, tt) => {
@@ -383,7 +386,7 @@ exports.request_update = async (req, res) => {
 			if (j.free_periods.length === 0) {
 				return res.status(400).json({ error: "No free periods available" });
 			}
-			console.log({ period: periods, free_periods: free });
+			//console.log({ period: periods, free_periods: free });
 			return res.json({ period: periods, free_periods: free });
 		}
 	);
@@ -396,10 +399,10 @@ exports.submit_request = async (req, res) => {
 	batch = req.body.batch;
 	from = req.body.from;
 	to = req.body.to;
-	console.log(req.body.tname);
+	//console.log(req.body.tname);
 	const request = new Request({ tname, day, sec, batch, from, to });
 	request.save((err) => {
-		console.log("summa");
+		//console.log("summa");
 		if (err) {
 			return res.status(400).json({
 				error: "Cannot make the changes",
@@ -626,7 +629,7 @@ exports.get_teacher_email = async (req, res, next) => {
 		},
 		(err, teacher) => {
 			if (err || !teacher) {
-				console.log("teacher error");
+				//console.log("teacher error");
 				return res.status(400).json({ error: "400 error" });
 			}
 			teacheremail = teacher.email;

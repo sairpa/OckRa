@@ -100,3 +100,14 @@ describe("Invalid section or Batch", () => {
 		done();
 	}, 30000);
 });
+
+describe("Invalid Teacher timetable", () => {
+	test("Wrong Teacher", async (done) => {
+		const res = await request.post("/api/search/teachertimetable").send({
+			name: "AB",
+		});
+		expect(res.text).not.toBeFalsy();
+		expect(res.body.error).not.toBeFalsy();
+		done();
+	}, 30000);
+});
