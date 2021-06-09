@@ -189,7 +189,7 @@ describe("Student Notification", () => {
 describe("Student Notification", () => {
 	test("Non-empty notification", async (done) => {
 		const res = await request.post("/api/student/notification").send({
-			day: "thursday",
+			day: "saturday",
 			sec: "B",
 			batch: "2018",
 		});
@@ -222,7 +222,7 @@ describe("Teacher Notification", () => {
 describe("Teacher Notification", () => {
 	test("non-empty notification", async (done) => {
 		const res = await request.post("/api/teacher/notification").send({
-			day: "thursday",
+			day: "saturday",
 			tname: "MR_Y",
 		});
 
