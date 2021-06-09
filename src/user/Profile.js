@@ -27,8 +27,8 @@ const Profile = () => {
 	const { email, name, mobileno, rollno, batch, address, city, pincode } =
 		JSON.parse(localStorage.getItem("details"));
 
-	const handleChange = (name) => (event) => {
-		setValues({ ...values, error: false, [name]: event.target.value });
+	const handleChange = (kname) => (event) => {
+		setValues({ ...values, error: false, [kname]: event.target.value });
 	};
 
 	const errorMessage = () => {
