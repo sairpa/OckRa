@@ -3,9 +3,9 @@ pipeline {
     environment {
         CI = 'true'
         registry = "ockra13/occupancy-chart-generation" 
-4
+
         registryCredential = 'dockerscred' 
-5
+        
         dockerImage = ''
     }
     stages {
