@@ -220,19 +220,19 @@ describe("Teacher Feedback check", () => {
 	}, 30000);
 });
 
-describe("Forgot password", () => {
-	test("valid emailid", async (done) => {
-		const res = await request.post("/api/forgotpassword").send({
-			email: "waran715@gmail.com",
-		});
-		token = res.body.token;
-		expect(res.status).toBe(200);
-		expect(res.body.error).toBeFalsy();
-		expect(res.text).not.toBeFalsy();
+// describe("Forgot password", () => {
+// 	test("valid emailid", async (done) => {
+// 		const res = await request.post("/api/forgotpassword").send({
+// 			email: "waran715@gmail.com",
+// 		});
+// 		token = res.body.token;
+// 		expect(res.status).toBe(200);
+// 		expect(res.body.error).toBeFalsy();
+// 		expect(res.text).not.toBeFalsy();
 
-		done();
-	}, 100000);
-});
+// 		done();
+// 	}, 100000);
+// });
 
 describe("Reset password", () => {
 	let email = "waran715@gmail.com";
@@ -249,20 +249,20 @@ describe("Reset password", () => {
 	}, 100000);
 });
 
-describe("Reset password", () => {
-	let email = "waran715@gmail.com";
-	test("valid token", async (done) => {
-		const res = await request.post(`/api/reset/${email}/${token}`).send({
-			password: "admin123",
-		});
+// describe("Reset password", () => {
+// 	let email = "waran715@gmail.com";
+// 	test("valid token", async (done) => {
+// 		const res = await request.post(`/api/reset/${email}/${token}`).send({
+// 			password: "admin123",
+// 		});
 
-		expect(res.status).toBe(200);
-		expect(res.body.error).toBeFalsy();
-		expect(res.text).not.toBeFalsy();
+// 		expect(res.status).toBe(200);
+// 		expect(res.body.error).toBeFalsy();
+// 		expect(res.text).not.toBeFalsy();
 
-		done();
-	}, 100000);
-});
+// 		done();
+// 	}, 100000);
+// });
 
 describe("Submit request", () => {
 	test("req submit", async (done) => {
