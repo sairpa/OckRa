@@ -7,16 +7,16 @@ const cors = require("cors");
 
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
-/*mongoose
-	.connect("mongodb://localhost:27017/Model_Logesh", {
-		useNewUrlParser: true,
-		useUnifiedTopology: true,
-		useCreateIndex: true,
-		useFindAndModify: false,
-	})
-	.then(() => {
-		//console.log("DB CONNECTED");
-	});*/
+// mongoose
+// 	.connect("mongodb://localhost:27017/Model_Logesh", {
+// 		useNewUrlParser: true,
+// 		useUnifiedTopology: true,
+// 		useCreateIndex: true,
+// 		useFindAndModify: false,
+// 	})
+// 	.then(() => {
+// 		//console.log("DB CONNECTED");
+// 	});
 
 mongoose
 	.connect(
