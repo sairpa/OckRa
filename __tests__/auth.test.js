@@ -116,7 +116,7 @@ describe("Invalid Teacher timetable", () => {
 
 var token;
 describe("Feedback check", () => {
-	test("Entering feedback?", async (done) => {
+	test("Entering Student feedback?", async (done) => {
 		const res0 = await request.post("/api/signin").send({
 			email: "cb.en.u4cse18129@cb.students.amrita.edu",
 			password: "admin123",
@@ -196,7 +196,7 @@ describe("Profile Update check", () => {
 });
 
 describe("Teacher Feedback check", () => {
-	test("Entering feedback?", async (done) => {
+	test("Entering Teacher feedback?", async (done) => {
 		const res0 = await request.post("/api/signin").send({
 			email: "MR_Y@cb.amrita.edu",
 			password: "admin123",
@@ -220,24 +220,24 @@ describe("Teacher Feedback check", () => {
 	}, 30000);
 });
 
-// describe("Forgot password", () => {
-// 	test("valid emailid", async (done) => {
-// 		const res = await request.post("/api/forgotpassword").send({
-// 			email: "waran715@gmail.com",
-// 		});
-// 		token = res.body.token;
-// 		expect(res.status).toBe(200);
-// 		expect(res.body.error).toBeFalsy();
-// 		expect(res.text).not.toBeFalsy();
+describe("Forgot password", () => {
+	test("valid emailid", async (done) => {
+		const res = await request.post("/api/forgotpassword").send({
+			email: "waran715@gmail.com",
+		});
+		token = res.body.token;
+		expect(res.status).toBe(200);
+		expect(res.body.error).toBeFalsy();
+		expect(res.text).not.toBeFalsy();
 
-// 		done();
-// 	}, 100000);
-// });
+		done();
+	}, 100000);
+});
 
 describe("Reset password", () => {
 	let email = "waran715@gmail.com";
 	let token = 1234;
-	test("valid token", async (done) => {
+	test("invalid token", async (done) => {
 		const res = await request.post(`/api/reset/${email}/${token}`).send({
 			password: "admin123",
 		});
@@ -249,20 +249,20 @@ describe("Reset password", () => {
 	}, 100000);
 });
 
-// describe("Reset password", () => {
-// 	let email = "waran715@gmail.com";
-// 	test("valid token", async (done) => {
-// 		const res = await request.post(`/api/reset/${email}/${token}`).send({
-// 			password: "admin123",
-// 		});
+describe("Reset password", () => {
+	let email = "waran715@gmail.com";
+	test("valid token", async (done) => {
+		const res = await request.post(`/api/reset/${email}/${token}`).send({
+			password: "admin123",
+		});
 
-// 		expect(res.status).toBe(200);
-// 		expect(res.body.error).toBeFalsy();
-// 		expect(res.text).not.toBeFalsy();
+		expect(res.status).toBe(200);
+		expect(res.body.error).toBeFalsy();
+		expect(res.text).not.toBeFalsy();
 
-// 		done();
-// 	}, 100000);
-// });
+		done();
+	}, 100000);
+});
 
 describe("Submit request", () => {
 	test("req submit", async (done) => {
