@@ -597,6 +597,7 @@ exports.send_notification = async (req, res) => {
 
 exports.get_students = async (req, res, next) => {
 	var studentmail = [];
+	console.log(req.body.sec)
 	Student.find(
 		{
 			sec: req.body.sec,
@@ -624,6 +625,7 @@ exports.get_students = async (req, res, next) => {
 
 exports.get_teacher_email = async (req, res, next) => {
 	var teacheremail;
+	console.log(req.body.tname)
 	Teacher.findOne(
 		{
 			name: req.body.tname,
@@ -631,7 +633,7 @@ exports.get_teacher_email = async (req, res, next) => {
 		(err, teacher) => {
 			if (err || !teacher) {
 				//console.log("teacher error");
-				return res.status(400).json({ error: "400 error" });
+				return res.status(400).json({ error: err });
 			}
 			teacheremail = teacher.email;
 
